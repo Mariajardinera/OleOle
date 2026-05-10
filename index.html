@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OleOle · Asistente IA de Protección de Datos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -31,7 +31,7 @@
             gap: 20px;
             flex-wrap: wrap;
         }
-        .chatbot-avatar svg { width: 70px; height: 70px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
+        .chatbot-avatar svg { width: 70px; height: 70px; }
         .header-text { flex: 1; }
         .chatbot-title { font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .chatbot-subtitle { opacity: 0.9; font-size: 0.9rem; margin-top: 4px; }
@@ -81,7 +81,6 @@
             justify-content: center;
             color: white;
             flex-shrink: 0;
-            font-weight: bold;
             font-size: 1.2rem;
         }
         .user-message { flex-direction: row-reverse; }
@@ -118,7 +117,7 @@
             resize: vertical;
             margin-bottom: 12px;
         }
-        .input-actions { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+        .input-actions { display: flex; gap: 10px; margin-bottom: 12px; }
         .send-btn, .clear-btn {
             padding: 10px 20px;
             border: none;
@@ -126,63 +125,9 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.3s;
         }
         .send-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; flex: 1; }
         .clear-btn { background: #f0f0f0; color: #666; }
-        .api-status {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .config-btn { background: #2a5298; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-        .gdpr-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        .gdpr-modal {
-            background: white;
-            max-width: 500px;
-            width: 90%;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-        .gdpr-modal h3 { margin-bottom: 15px; color: #1e3c72; }
-        .gdpr-modal p { margin-bottom: 15px; font-size: 14px; line-height: 1.5; color: #333; }
-        .gdpr-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        .btn-accept { background: #2a5298; color: white; padding: 12px 25px; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; }
-        .ia-warning {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 12px 15px;
-            margin: 15px 20px 0 20px;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #92400e;
-        }
         .aviso-importante {
             background: #e0f2fe;
             border-left: 4px solid #0284c7;
@@ -193,9 +138,15 @@
             color: #0c4a6e;
             line-height: 1.5;
         }
-        .aviso-importante strong { color: #0369a1; }
-        .aviso-importante a { color: #0284c7; text-decoration: none; font-weight: 500; }
-        .aviso-importante a:hover { text-decoration: underline; }
+        .ia-warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 15px;
+            margin: 15px 20px 0 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #92400e;
+        }
         @media (max-width: 768px) {
             .main-content { flex-direction: column; }
             .sidebar { width: 100%; max-height: 300px; }
@@ -221,38 +172,34 @@
             </svg>
         </div>
         <div class="header-text">
-            <div class="chatbot-title">Olé Olé <span style="font-size:1.2rem;">🇨🇱🇪🇸</span></div>
+            <div class="chatbot-title">Olé Olé 🇨🇱🇪🇸</div>
             <div class="chatbot-subtitle">Asistente de protección de datos · prioridad Ley Chilena</div>
-            <div class="badge"><i class="fas fa-database"></i> Indexado: Ley 19.628 · Ley 21.719 · Criterios y Guías AEPD</div>
+            <div class="badge">Indexado: Ley 19.628 · Ley 21.719 · Guías AEPD</div>
         </div>
     </div>
     
-    <!-- Aviso importante con las nuevas fuentes -->
     <div class="aviso-importante">
         <strong>⚠️ Aviso importante:</strong><br>
-        Este chatbot utiliza datos abiertos de la <strong>Agencia Española de Protección de Datos (AEPD)</strong> y tiene como fuentes principales sus <a href="https://www.aepd.es/guias-y-herramientas/guias" target="_blank">Guías</a>, <a href="https://www.aepd.es/informes-y-resoluciones/criterios-juridicos-aepd" target="_blank">Criterios Jurídicos</a> y <a href="https://www.aepd.es/informes-y-resoluciones/resoluciones" target="_blank">Resoluciones</a>. La AEPD no patrocina ni avala este servicio. La IA puede cometer errores, por lo que se recomienda, antes de tomar alguna decisión, chequearla en las <strong>fuentes oficiales</strong>.<br><br>
-        Este chat está programado para responder de conformidad a la <strong>ley chilena de protección de datos</strong> en primera instancia, y complementar con la <strong>ley española</strong>. Tiene fines <strong>educativos</strong>.<br>
-        📚 <strong>Actualización: Mayo 2026</strong>
+        Este chatbot tiene fines <strong>educativos</strong>. Prioriza la <strong>ley chilena</strong> (19.628 y 21.719) y complementa con fuentes de la AEPD.
     </div>
     
-    <!-- AVISO IA -->
     <div class="ia-warning">
         <strong>🤖 AVISO IMPORTANTE (Ley de IA - UE 2024/1689):</strong><br>
-        Estás interactuando con un <strong>sistema de inteligencia artificial</strong>. Las respuestas son generadas automáticamente y pueden contener errores. Para consultas oficiales, consulte siempre las fuentes originales.
+        Estás interactuando con un <strong>sistema de inteligencia artificial</strong>. Las respuestas son generadas automáticamente y pueden contener errores.
     </div>
 
     <div class="main-content">
         <div class="sidebar">
-            <h3><i class="fas fa-list"></i> Categorías</h3>
+            <h3>Categorías</h3>
             <div class="categories-list">
-                <button class="cat-btn" data-category="responsables"><i class="fas fa-user-tie"></i> 1. Responsables y Encargados</button>
-                <button class="cat-btn" data-category="riesgos"><i class="fas fa-chart-line"></i> 2. Enfoque de Riesgos</button>
-                <button class="cat-btn" data-category="analisis"><i class="fas fa-chart-bar"></i> 5. Análisis de Datos / Anonimización</button>
-                <button class="cat-btn" data-category="internet"><i class="fas fa-globe"></i> 6. Internet / LSSI / Cookies</button>
-                <button class="cat-btn" data-category="moviles"><i class="fas fa-mobile-alt"></i> 7. Dispositivos Móviles / Geolocalización</button>
-                <button class="cat-btn" data-category="sectorial"><i class="fas fa-briefcase"></i> 8. Recursos Sectoriales</button>
-                <button class="cat-btn" data-category="admin"><i class="fas fa-building"></i> 9. Administración Pública</button>
-                <button class="cat-btn" data-category="blog"><i class="fas fa-blog"></i> 10. Blog Temático (cifrado, brechas)</button>
+                <button class="cat-btn" data-category="responsables">1. Responsables y Encargados</button>
+                <button class="cat-btn" data-category="riesgos">2. Enfoque de Riesgos</button>
+                <button class="cat-btn" data-category="analisis">5. Análisis de Datos</button>
+                <button class="cat-btn" data-category="internet">6. Internet / LSSI</button>
+                <button class="cat-btn" data-category="moviles">7. Dispositivos Móviles</button>
+                <button class="cat-btn" data-category="sectorial">8. Recursos Sectoriales</button>
+                <button class="cat-btn" data-category="admin">9. Administración Pública</button>
+                <button class="cat-btn" data-category="blog">10. Blog Temático</button>
             </div>
         </div>
         <div class="chat-area">
@@ -261,110 +208,30 @@
                     <div class="message-avatar">🇨🇱</div>
                     <div class="message-content">
                         👋 <strong>¡Olé! Soy OleOle</strong>, tu asistente experto en protección de datos.<br>
-                        🇨🇱 Priorizo la <strong>ley chilena (19.628 y 21.719)</strong> 🇨🇱<br>
-                        🇪🇸 Complemento con las Guías, Criterios y Resoluciones de la AEPD 🇪🇸<br>
-                        🧠 <strong>Recuerdo la conversación:</strong> puedo complementar respuestas sin repetirme.<br><br>
-                        <span style="background:#e9f0fe;">🔧 Configura tu API Key de OpenRouter (gratis) en el botón inferior.</span>
+                        🇨🇱 Priorizo la <strong>ley chilena (19.628 y 21.719)</strong><br>
+                        🇪🇸 Complemento con Guías, Criterios y Resoluciones de la AEPD<br>
+                        🧠 <strong>Recuerdo la conversación</strong>: puedo complementar respuestas sin repetirme.<br><br>
+                        ✅ <strong>No necesitas configurar nada</strong>. Solo escribe tu pregunta.
                     </div>
                 </div>
             </div>
             <div class="chat-input-container">
                 <textarea id="userInput" placeholder="Escribe tu pregunta sobre protección de datos (Ley chilena, Guías AEPD, resoluciones...)" rows="3"></textarea>
                 <div class="input-actions">
-                    <button id="sendBtn" class="send-btn"><i class="fas fa-paper-plane"></i> Enviar a OleOle</button>
-                    <button id="clearBtn" class="clear-btn"><i class="fas fa-trash-alt"></i> Limpiar</button>
-                </div>
-                <div class="api-status" id="apiStatus">
-                    <i class="fas fa-key"></i> API Key configurada: <span id="apiKeyStatus">No</span>
-                    <button id="configApiBtn" class="config-btn">Configurar API Key (OpenRouter)</button>
+                    <button id="sendBtn" class="send-btn">Enviar a OleOle</button>
+                    <button id="clearBtn" class="clear-btn">Limpiar</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal RGPD (Consentimiento) -->
-<div id="gdprConsentOverlay" class="gdpr-overlay" style="display: flex;">
-    <div class="gdpr-modal">
-        <i class="fas fa-shield-alt" style="font-size: 48px; color: #2a5298; margin-bottom: 15px;"></i>
-        <h3>🔒 Tu privacidad es importante</h3>
-        <p>Este chatbot procesa tus preguntas para ofrecer respuestas basadas en legislación chilena y criterios de la AEPD.</p>
-        <p><strong>No almacenamos tus datos personales de forma permanente.</strong> Las conversaciones se eliminan al cerrar la pestaña o al usar el botón "Limpiar".</p>
-        <div class="gdpr-buttons">
-            <button id="acceptGdprBtn" class="btn-accept">✅ Aceptar y continuar</button>
-        </div>
-    </div>
-</div>
-
-<!-- Modal API Key -->
-<div id="apiModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:3000; align-items:center; justify-content:center;">
-    <div style="background:white; max-width:500px; width:90%; border-radius:15px; padding:20px;">
-        <h3><i class="fas fa-key"></i> Clave de OpenRouter</h3>
-        <p>Pega tu API Key (empieza con <code>sk-or-v1-</code>). Consíguela en <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a></p>
-        <input type="password" id="apiKeyInput" placeholder="sk-or-v1-..." style="width:100%; padding:10px; margin:15px 0; border:1px solid #ddd; border-radius:8px;">
-        <button id="saveApiBtn" style="width:100%; padding:10px; background:#2a5298; color:white; border:none; border-radius:8px;">Guardar API Key</button>
-        <button id="closeModalBtn" style="margin-top:10px; width:100%; padding:8px; background:#f0f0f0; border:none; border-radius:8px;">Cerrar</button>
-    </div>
-</div>
-
 <script>
-    // --- CONSENTIMIENTO GDPR ---
-    function checkGdprConsent() {
-        const consentGiven = localStorage.getItem('gdpr_consent_oleole');
-        if (!consentGiven) {
-            document.getElementById('gdprConsentOverlay').style.display = 'flex';
-        } else {
-            document.getElementById('gdprConsentOverlay').style.display = 'none';
-        }
-    }
-    document.getElementById('acceptGdprBtn')?.addEventListener('click', () => {
-        localStorage.setItem('gdpr_consent_oleole', 'true');
-        document.getElementById('gdprConsentOverlay').style.display = 'none';
-    });
-    
-    // --- LÓGICA DEL CHAT (CON MEMORIA Y LIMPIEZA DE HISTORIAL) ---
-    let apiKey = localStorage.getItem('openrouter_api_key') || '';
     let currentCategory = null;
     const chatMessages = document.getElementById('chatMessages');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const clearBtn = document.getElementById('clearBtn');
-    const apiStatusSpan = document.getElementById('apiKeyStatus');
-    const configApiBtn = document.getElementById('configApiBtn');
-    const apiModal = document.getElementById('apiModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const saveApiBtn = document.getElementById('saveApiBtn');
-    const apiKeyInput = document.getElementById('apiKeyInput');
-    
-    function updateApiStatus() {
-        if (apiKey && apiKey.startsWith('sk-or-v1-')) {
-            apiStatusSpan.textContent = '✅ Configurada (OpenRouter)';
-            apiStatusSpan.style.color = 'green';
-        } else {
-            apiStatusSpan.textContent = '❌ Sin API Key';
-            apiStatusSpan.style.color = 'crimson';
-        }
-    }
-    configApiBtn.onclick = () => { 
-        apiModal.style.display = 'flex'; 
-        apiKeyInput.value = apiKey; 
-    };
-    closeModalBtn.onclick = () => { 
-        apiModal.style.display = 'none'; 
-    };
-    window.onclick = (e) => {
-        if (e.target === apiModal) apiModal.style.display = 'none';
-    };
-    saveApiBtn.onclick = () => {
-        let newKey = apiKeyInput.value.trim();
-        if (newKey && newKey.startsWith('sk-or-v1-')) {
-            apiKey = newKey;
-            localStorage.setItem('openrouter_api_key', apiKey);
-            updateApiStatus();
-            apiModal.style.display = 'none';
-            addMessage('system', '✅ API Key guardada. Priorizaré la ley chilena y consultaré fuentes AEPD.');
-        } else alert('API Key inválida (debe empezar con sk-or-v1-)');
-    };
     
     function addMessage(role, content) {
         const div = document.createElement('div');
@@ -390,46 +257,20 @@
     }
     
     async function askOleOle(question, categoryId) {
-        if (!apiKey || !apiKey.startsWith('sk-or-v1-')) {
-            addMessage('system', '⚠️ Configura tu API Key de OpenRouter (gratis) en el botón inferior.');
-            return null;
-        }
-        const systemPrompt = `Eres "OleOle", un asistente experto en protección de datos. Tu misión es educativa.
-
-**NORMATIVA CHILENA (PRIORITARIA):**
-- Ley 19.628 (actual hasta 30/11/2026) y Ley 21.719 (vigencia 1/12/2026).
-- Cita siempre el artículo chileno que corresponda.
-
-**FUENTES ESPAÑOLAS / AEPD (CONSULTA SECUNDARIA):**
-- Las Guías, Criterios Jurídicos y Resoluciones de la AEPD.
-- Tu conocimiento sobre el RGPD y la LOPDGDD.
-
-**ESTRUCTURA DE RESPUESTA:**
-1.  **Respuesta prioritaria con la Ley Chilena:** Explica el punto y cita el artículo.
-2.  **Complemento con la AEPD:** Menciona si la AEPD ha establecido criterios, guías o resoluciones relevantes sobre el mismo tema. Sé breve y didáctico.
-3.  **Aviso final OBLIGATORIO:** "📌 *Aviso: Este bot tiene fines exclusivamente educativos. La normativa chilena 21.719 entrará en vigencia el 1 de diciembre de 2026. Antes de tomar decisiones, consulta las fuentes oficiales.*"
-
-**REGLAS IMPORTANTES SOBRE EL CONTEXTO:**
-- Cuando el usuario repregunte sobre el mismo tema, NO repitas la misma información. En su lugar, **complementa o profundiza** en lo que ya has dicho.
-- Si el usuario pregunta "¿y qué más?", "¿alguna otra cosa?", "¿me puedes dar más detalles?", amplía tu respuesta anterior.
-- Si el usuario contrapregunta sobre un punto específico, enfócate en ese punto sin repetir toda la respuesta previa.
-- Si la conversación cambia de tema, ignora el historial anterior y empieza de nuevo.`;
-
         const context = categoryId ? `Categoría: ${categoryId}.` : '';
         try {
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
-                    apiKey, 
-                    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: context + ' ' + question }] 
+                    messages: [{ role: 'user', content: context + ' ' + question }] 
                 })
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.error);
             return data.choices[0].message.content;
         } catch (err) {
-            return `❌ Error de conexión: ${err.message}. Asegúrate de que node server.js esté corriendo.`;
+            return `❌ Error: ${err.message}. Intenta de nuevo más tarde.`;
         }
     }
     
@@ -444,14 +285,6 @@
         if (answer) addMessage('bot', answer);
     }
     
-    // Botón limpiar: borra pantalla Y el historial del servidor
-    clearBtn.addEventListener('click', async () => { 
-        chatMessages.innerHTML = ''; 
-        // Limpiar el historial en el servidor (memoria)
-        await fetch('/api/clear-history', { method: 'POST' });
-        addMessage('bot', '🧹 Chat limpio. ¡Olé! He olvidado nuestra conversación anterior. Pregúntame de nuevo sobre la ley chilena o las fuentes de la AEPD.'); 
-    });
-    
     document.querySelectorAll('.cat-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             currentCategory = btn.dataset.category;
@@ -462,6 +295,10 @@
     });
     
     sendBtn.addEventListener('click', sendMessage);
+    clearBtn.addEventListener('click', () => { 
+        chatMessages.innerHTML = ''; 
+        addMessage('bot', '🧹 Chat limpio. ¡Olé! Pregúntame sobre la ley chilena o las fuentes de la AEPD.'); 
+    });
     userInput.addEventListener('keypress', (e) => { 
         if (e.key === 'Enter' && !e.shiftKey) { 
             e.preventDefault(); 
@@ -469,8 +306,6 @@
         } 
     });
     
-    checkGdprConsent();
-    updateApiStatus();
     const style = document.createElement('style');
     style.textContent = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
     document.head.appendChild(style);
