@@ -2,8 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>OleOle · Asistente IA de Protección de Datos</title>
+    
+    <!-- 🔥 CÓDIGO DE GOOGLE ADSENSE (pegado en el head) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3963223575032620"
+     crossorigin="anonymous"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -36,6 +41,30 @@
         .chatbot-title { font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .chatbot-subtitle { opacity: 0.9; font-size: 0.9rem; margin-top: 4px; }
         .badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; margin-top: 8px; }
+        
+        /* 🔥 BANNER DE ADSENSE (espacio para el anuncio) */
+        .adsense-banner {
+            text-align: center;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .adsense-banner ins {
+            display: block;
+            margin: 0 auto;
+        }
+        .adsense-label {
+            font-size: 10px;
+            color: #999;
+            text-align: center;
+            padding: 5px 0;
+            background: #f8f9fa;
+        }
+        
         .main-content { display: flex; min-height: 600px; }
         .sidebar {
             width: 280px;
@@ -178,6 +207,21 @@
         </div>
     </div>
     
+    <!-- 🔥 ESPACIO PARA BANNER DE ADSENSE (arriba del chat) -->
+    <div class="adsense-label">📢 Anuncio</div>
+    <div class="adsense-banner">
+        <!-- Aquí Google AdSense insertará automáticamente un anuncio -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3963223575032620"
+             data-ad-slot="xxxxxxxxxx"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    
     <div class="aviso-importante">
         <strong>⚠️ Aviso importante:</strong><br>
         Este chatbot tiene fines <strong>educativos</strong>. Prioriza la <strong>ley chilena</strong> (19.628 y 21.719) y complementa con fuentes de la AEPD.
@@ -295,9 +339,10 @@
     });
     
     sendBtn.addEventListener('click', sendMessage);
-    clearBtn.addEventListener('click', () => { 
+    clearBtn.addEventListener('click', async () => { 
         chatMessages.innerHTML = ''; 
-        addMessage('bot', '🧹 Chat limpio. ¡Olé! Pregúntame sobre la ley chilena o las fuentes de la AEPD.'); 
+        await fetch('/api/clear-history', { method: 'POST' });
+        addMessage('bot', '🧹 Chat limpio. ¡Olé! He olvidado nuestra conversación anterior. Pregúntame de nuevo.'); 
     });
     userInput.addEventListener('keypress', (e) => { 
         if (e.key === 'Enter' && !e.shiftKey) { 
