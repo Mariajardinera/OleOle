@@ -1,0 +1,16 @@
+{
+  "name": "aepd-chatbot",
+  "version": "1.0.0",
+  "description": "Asistente IA basado en el Decálogo de la AEPD",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.1",
+    "express-session": "^1.19.0",
+    "node-fetch": "^2.7.0"
+  }
+}

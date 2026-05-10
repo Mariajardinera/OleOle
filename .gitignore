@@ -1,0 +1,7 @@
+node_modules/
+.env
+token.txt
+.DS_Store
+Thumbs.db
+*.log
+package-lock.json
