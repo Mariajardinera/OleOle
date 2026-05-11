@@ -287,6 +287,86 @@
         .clear-btn { background: #f1f5f9; color: var(--text); }
         .clear-btn:hover { background: #e2e8f0; }
         
+        /* ========== FOOTER POLÍTICA DE PRIVACIDAD ========== */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ========== MODAL POLÍTICA DE PRIVACIDAD ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            border-radius: 20px;
+            padding: 25px;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-content h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .modal-content h4 {
+            color: var(--secondary);
+            margin: 15px 0 8px 0;
+            font-size: 1rem;
+        }
+        
+        .modal-content p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        
+        .close-modal {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .close-modal:hover {
+            background: var(--primary-dark);
+        }
+        
         /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
             .main-content { flex-direction: column; }
@@ -379,9 +459,86 @@
             </div>
         </div>
     </div>
+    
+    <!-- ========== FOOTER CON POLÍTICA DE PRIVACIDAD ========== -->
+    <div class="footer">
+        <a id="privacyLink">📋 Política de Privacidad</a>
+    </div>
+</div>
+
+<!-- ========== MODAL POLÍTICA DE PRIVACIDAD ========== -->
+<div id="privacyModal" class="modal">
+    <div class="modal-content">
+        <h3>📋 Política de Privacidad de OleOle</h3>
+        <p><strong>Última actualización: Mayo 2026</strong></p>
+        
+        <h4>1. Responsable del Tratamiento</h4>
+        <p><strong>Titular:</strong> Maria Jardinera<br>
+        <strong>Correo de contacto:</strong> contacto@oleole.com<br>
+        <strong>Sitio web:</strong> https://oleole-gdhk.onrender.com</p>
+        
+        <h4>2. ¿Qué datos recogemos?</h4>
+        <p>• Las preguntas que escribes en el chat<br>
+        • Tu dirección IP (técnica, para seguridad)<br>
+        • Historial de conversación (últimos 10 mensajes)</p>
+        
+        <h4>3. ¿Cómo usamos tus datos?</h4>
+        <p>• Responder tus preguntas sobre protección de datos<br>
+        • Mejorar la calidad de las respuestas (valoraciones 👍/👎)<br>
+        • Proteger el servidor contra ataques</p>
+        
+        <h4>4. ¿Compartimos tus datos con terceros?</h4>
+        <p><strong>OpenRouter</strong> (proveedor de IA): tus preguntas se envían para procesar la respuesta. Actúa como encargado del tratamiento (art. 15 bis Ley 21.719).</p>
+        
+        <h4>5. ¿Cómo protegemos tus datos?</h4>
+        <p>• Conexión cifrada HTTPS (candado 🔒 en tu navegador)<br>
+        • No almacenamos conversaciones de forma permanente<br>
+        • Las conversaciones se eliminan al cerrar la pestaña</p>
+        
+        <h4>6. ¿Qué derechos tienes?</h4>
+        <p><strong>Acceso, rectificación, supresión, oposición, portabilidad y bloqueo.</strong><br>
+        Para ejercer tus derechos, escríbenos a: <strong>contacto@oleole.com</strong></p>
+        
+        <h4>7. ¿Cuánto tiempo conservamos tus datos?</h4>
+        <p>• Conversaciones: se eliminan al cerrar la pestaña<br>
+        • Valoraciones: se almacenan de forma anónima para mejorar el servicio<br>
+        • Direcciones IP: no se almacenan de forma persistente</p>
+        
+        <h4>8. Uso de cookies</h4>
+        <p><strong>OleOle NO utiliza cookies publicitarias ni de rastreo.</strong> Solo emplea almacenamiento local (localStorage) para recordar la conversación actual mientras el chat está abierto, lo cual es estrictamente necesario para el funcionamiento.</p>
+        
+        <h4>9. Transferencias internacionales</h4>
+        <p>OpenRouter puede procesar datos en servidores en UE/EE.UU., bajo garantías adecuadas (cláusulas contractuales tipo).</p>
+        
+        <h4>10. Contacto</h4>
+        <p>📧 <strong>contacto@oleole.com</strong></p>
+        
+        <button class="close-modal" onclick="closePrivacyModal()">Cerrar</button>
+    </div>
 </div>
 
 <script>
+    // ============================================
+    // MODAL POLÍTICA DE PRIVACIDAD
+    // ============================================
+    function openPrivacyModal() {
+        document.getElementById('privacyModal').style.display = 'flex';
+    }
+    
+    function closePrivacyModal() {
+        document.getElementById('privacyModal').style.display = 'none';
+    }
+    
+    document.getElementById('privacyLink').onclick = openPrivacyModal;
+    
+    // Cerrar modal si se hace clic fuera del contenido
+    window.onclick = function(event) {
+        const modal = document.getElementById('privacyModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+    
     // ============================================
     // CONFIGURACIÓN INICIAL
     // ============================================
