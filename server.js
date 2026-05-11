@@ -211,7 +211,7 @@ puedes ayudar de forma educativa y referencial.
                     'X-Title': 'OleOle'
                 },
                 body: JSON.stringify({
-                    model: 'mistralai/mistral-7b-instruct:free',
+                    model: 'deepseek/deepseek-chat-v3-0324:free',
                     messages: messagesForAI,
                     temperature: 0.5,
                     max_tokens: 1200
