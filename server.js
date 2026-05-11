@@ -1,96 +1,3 @@
-require('dotenv').config();
-
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const session = require('express-session');
-const fetch = require('node-fetch');
-
-const app = express();
-const PORT = process.env.PORT || 3001;
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-
-app.use(cors());
-app.use(express.json({ limit: '2mb' }));
-app.use(express.static(__dirname));
-
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'oleole-secret-key-2026',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false, maxAge: 30 * 24 * 60 * 60 * 1000 }
-}));
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.post('/api/clear-history', (req, res) => {
-    if (req.session) req.session.conversationHistory = [];
-    res.json({ ok: true });
-});
-
-app.post('/api/chat', async (req, res) => {
-    try {
-        const { messages } = req.body;
-
-        if (!OPENROUTER_API_KEY) {
-            console.error('❌ API Key no configurada');
-            return res.status(500).json({ error: 'API Key no configurada' });
-        }
-
-        if (!req.session.conversationHistory) {
-            req.session.conversationHistory = [];
-        }
-
-        if (messages && messages.length > 0) {
-            req.session.conversationHistory.push(messages[messages.length - 1]);
-        }
-
-        const MAX_HISTORY = 10;
-        const history = req.session.conversationHistory.slice(-MAX_HISTORY);
-
-        const systemPrompt = `Eres "OleOle", asistente educativo de protección de datos. Prioridad: ley chilena (19.628 y 21.719). Cita artículos si puedes. Complementa con normativa española (AEPD) sin inventar. Si repreguntan sobre el mismo tema, complementa sin repetirte. Termina siempre con el aviso legal.`;
-
-        const messagesForAI = [
-            { role: 'system', content: systemPrompt },
-            ...history
-        ];
-
-        // 🔥 MODELO GENÉRICO (nunca falla)
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'HTTP-Referer': 'https://oleole-gdhk.onrender.com',
-                'X-Title': 'OleOle'
-            },
-            body: JSON.stringify({
-                model: 'openrouter/free',
-                messages: messagesForAI,
-                temperature: 0.4,
-                max_tokens: 1500
-            })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error?.message || 'Error en OpenRouter');
-        }
-
-        const assistantMessage = data.choices[0].message;
-        req.session.conversationHistory.push(assistantMessage);
-
-        res.json({ choices: [{ message: assistantMessage }] });
-
-    } catch (error) {
-        console.error('❌ Error:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
 // ============================================
 // 📦 DEPENDENCIAS
 // ============================================
@@ -126,7 +33,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: {
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 30 * 24 * 60 * 60 * 1000  // 30 días
+        maxAge: 30 * 24 * 60 * 60 * 1000
     }
 }));
 
@@ -173,7 +80,6 @@ app.post('/api/feedback', (req, res) => {
         date: new Date().toISOString()
     });
     
-    // Guardar solo los últimos 1000 feedbacks
     if (feedbacks.length > 1000) {
         feedbacks = feedbacks.slice(-1000);
     }
@@ -222,35 +128,63 @@ app.post('/api/chat', async (req, res) => {
         const history = req.session.conversationHistory.slice(-MAX_HISTORY);
 
         // ============================================
-        // 📜 SYSTEM PROMPT (PRIORIDAD LEY CHILENA)
+        // 📜 SYSTEM PROMPT (CORREGIDO - SIN INVENTAR)
         // ============================================
         const systemPrompt = `Eres "OleOle", un asistente experto en protección de datos personales, con fines educativos.
 
-**REGLAS OBLIGATORIAS - LEY CHILENA (PRIORITARIA):**
-1. SIEMPRE responde primero basándote en la legislación chilena.
-2. Fuente principal: Ley 19.628 (sobre protección de la vida privada) y su modificación, la Ley 21.719.
-3. Cita el artículo exacto cuando sea posible. Ejemplo: "En Chile, según el Artículo 12 de la Ley 19.628..."
-4. Menciona que la Ley 21.719 entrará en vigencia el 1 de diciembre de 2026.
-5. Si no encuentras el artículo, DÍLO CLARAMENTE: "No encuentro un artículo exacto de la ley chilena sobre este punto, pero según el espíritu de la ley..."
+**⚠️ REGLA MÁS IMPORTANTE - NUNCA INVENTES INFORMACIÓN:**
+- NO inventes números de artículos que no existen en la ley chilena.
+- NO inventes resoluciones, fechas o nombres de aeropuertos.
+- Si no estás seguro, DILO CLARAMENTE: "No encuentro el artículo exacto" o "No se ha encontrado una resolución pública".
 
-**REGLAS OBLIGATORIAS - CONTEXTO ESPAÑOL (SECUNDARIO):**
-1. DESPUÉS de responder con ley chilena, añade "**Contexto España**" solo si es relevante.
-2. Usa resoluciones REALES de la AEPD (ej: PS/00089/2019, PS-00297-2025, PS-00615-2025).
-3. Si no existe resolución específica, DÍLO CLARAMENTE: "No se ha encontrado una resolución pública de la AEPD sobre este punto específico."
+============================================
+📌 LEY CHILENA (PRIORITARIA) - ARTÍCULOS REALES
+============================================
 
-**REGLAS OBLIGATORIAS - PROHIBICIÓN DE INVENTAR:**
-1. NUNCA inventes números de resolución, fechas, nombres de empresas o aeropuertos.
-2. NUNCA inventes artículos de leyes que no hayas verificado.
-3. Si no estás seguro, DÍLO CLARAMENTE.
+**Ley 19.628 (vigente):**
+- Artículo 2 letra g): Define DATOS SENSIBLES (características físicas, hábitos personales, ideologías, salud, vida sexual, etc.)
+- Artículo 4°: Regula el CONSENTIMIENTO. El tratamiento solo es lícito si el titular consiente expresamente.
+- Artículo 7°: Deber de SECRETO o confidencialidad de los datos personales.
+- Artículo 9°: Prohibición de predicciones de riesgo comercial no basadas en información objetiva.
+- Artículo 10: Tratamiento de DATOS SENSIBLES. Solo con consentimiento expreso o autorización legal.
+- Artículo 12: DERECHOS ARCO (acceso, rectificación, cancelación, bloqueo).
+- Artículo 16: Procedimiento de tutela ante el juez civil.
 
-**AVISO LEGAL OBLIGATORIO (al final de cada respuesta):**
-Siempre termina con:
-"⚖️ Aviso educativo: esta respuesta es informativa y no constituye asesoría legal formal. Verifique fuentes oficiales (AEPD, leychile.cl) antes de tomar decisiones."
+**Ley 21.719 (vigencia 1/12/2026):**
+- Artículo 3°: Principios de licitud, finalidad, proporcionalidad, calidad, responsabilidad, seguridad, transparencia.
+- Artículo 4°: Derechos: acceso, rectificación, supresión, oposición, portabilidad, bloqueo.
 
-**ESTRUCTURA DE RESPUESTA:**
-1. [Chile] - Respuesta principal citando ley chilena
-2. [España] - Contexto español (solo si aplica)
-3. ⚖️ Aviso educativo`;
+============================================
+📌 ESPAÑA (AEPD) - RESOLUCIONES REALES
+============================================
+
+**Resoluciones verificables de la AEPD:**
+- PS/00089/2019: Multa a Aena (aeropuertos) por sistema "Checkpoint" con huellas dactilares sin consentimiento.
+- PS-00297-2025: Procedimiento sancionador por tratamiento ilícito.
+- PS-00615-2025: Reclamación contra entidad.
+
+**Reglas para España:**
+- Si NO existe una resolución específica sobre un tema, DILO: "No se ha encontrado una resolución pública de la AEPD sobre este punto específico."
+- NUNCA inventes años (ej: "multa de 2022") si no hay resolución.
+
+============================================
+📏 REGLAS OBLIGATORIAS DE RESPUESTA
+============================================
+
+1. **PRIORIDAD CHILENA:** Responde con ley chilena PRIMERO.
+2. **CITA ARTÍCULOS REALES:** Usa SOLO los artículos listados arriba (2.g, 4°, 7°, 9°, 10, 12, 16).
+3. **ESPACIO (solo si aplica):** Añade "**Contexto España**" con resoluciones reales.
+4. **AVISO LEGAL OBLIGATORIO:** Siempre termina con: "⚖️ Aviso educativo: Respuesta informativa. Verifique fuentes oficiales."
+
+============================================
+📋 ESTRUCTURA OBLIGATORIA DE RESPUESTA
+============================================
+
+[Chile] Texto de respuesta citando artículo REAL (ej: "Artículo 2 letra g")
+
+[España] (solo si el tema tiene resolución AEPD)
+
+⚖️ Aviso educativo`;
 
         // ============================================
         // 📨 MENSAJES PARA OPENROUTER
@@ -274,9 +208,9 @@ Siempre termina con:
                 'X-Title': 'OleOle'
             },
             body: JSON.stringify({
-                model: 'openrouter/free',  // 🔥 MODELO GRATUITO GENÉRICO
+                model: 'openrouter/free',
                 messages: messagesForAI,
-                temperature: 0.4,          // Más bajo = respuestas más precisas
+                temperature: 0.3,
                 max_tokens: 1500
             })
         });
@@ -318,12 +252,13 @@ Siempre termina con:
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`
     ╔══════════════════════════════════════════════════════════════════╗
-    ║     🇨🇱 OleOle - Prioridad Ley Chilena (versión completa) 🇪🇸    ║
+    ║     🇨🇱 OleOle - Prioridad Ley Chilena (versión corregida) 🇪🇸   ║
     ╠══════════════════════════════════════════════════════════════════╣
     ║  🌐 Servidor corriendo en puerto ${PORT}                            ║
-    ║  🤖 Modelo: openrouter/free (genérico gratuito)                  ║
-    ║  🧠 Memoria: Últimos ${10} mensajes                                ║
+    ║  🤖 Modelo: openrouter/free (gratuito)                           ║
+    ║  🧠 Memoria: Últimos 10 mensajes                                 ║
     ║  📊 Feedback: Guardando valoraciones en feedback.json            ║
+    ║  ✅ Prohibición de inventar información: ACTIVADA                ║
     ║  🔐 API Key: ${OPENROUTER_API_KEY ? '✅ CONFIGURADA' : '❌ FALTANTE'}              ║
     ╚══════════════════════════════════════════════════════════════════╝
     `);
