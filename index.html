@@ -4,25 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>OleOle · Asistente IA de Protección de Datos</title>
-    <!-- Favicon personalizado -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23AA151B'/%3E%3Cpath d='M30 45 Q50 30 70 45 Q75 50 70 60 Q50 75 30 60 Q25 50 30 45' fill='%23F1BF00'/%3E%3C/svg%3E">
+    
+    <!-- ========================================== -->
+    <!-- 🔥 GOOGLE ADSENSE -->
+    <!-- ========================================== -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3963223575032620"
+     crossorigin="anonymous"></script>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231e3c72'/%3E%3Cpath d='M30 45 Q50 30 70 45 Q75 50 70 60 Q50 75 30 60 Q25 50 30 45' fill='%23f97316'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ========== VARIABLES ========== */
+        /* ========== NEUROMARKETING COLORS ========== */
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --secondary: #0f172a;
-            --accent: #06b6d4;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --background: #f8fafc;
-            --surface: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
+            --trust-blue: #1e3c72;
+            --trust-blue-light: #2a5298;
+            --action-orange: #f97316;
+            --action-orange-dark: #ea580c;
+            --success-green: #10b981;
+            --creative-purple: #8b5cf6;
+            --creative-purple-dark: #7c3aed;
+            --warning-amber: #f59e0b;
+            --danger-red: #ef4444;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --border-light: #e2e8f0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,7 +45,7 @@
         .app-container {
             max-width: 1400px;
             margin: 0 auto;
-            background: var(--surface);
+            background: var(--bg-card);
             border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
@@ -45,7 +53,7 @@
         
         /* ========== HEADER ========== */
         .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, var(--trust-blue) 0%, var(--trust-blue-light) 100%);
             color: white;
             padding: 20px 30px;
             display: flex;
@@ -67,10 +75,25 @@
             margin-top: 8px;
         }
         
-        /* ========== AVISOS ========== */
+        /* ========== ADSENSE BANNER ========== */
+        .adsense-container {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .adsense-label {
+            font-size: 10px;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* ========== AVISOS CON ATRIBUCIÓN AEPD ========== */
         .aviso-importante {
             background: #e0f2fe;
-            border-left: 4px solid #0284c7;
+            border-left: 4px solid var(--action-orange);
             padding: 12px 20px;
             margin: 15px 20px;
             border-radius: 12px;
@@ -79,9 +102,15 @@
             line-height: 1.5;
         }
         
+        .aviso-importante a {
+            color: var(--action-orange);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
         .ia-warning {
             background: #fef3c7;
-            border-left: 4px solid #f59e0b;
+            border-left: 4px solid var(--warning-amber);
             padding: 10px 15px;
             margin: 0 20px 15px 20px;
             border-radius: 8px;
@@ -89,80 +118,91 @@
             color: #92400e;
         }
         
-        /* ========== MAIN CONTENT ========== */
+        /* ========== SIDEBAR ========== */
         .main-content { display: flex; min-height: 550px; }
         
-        /* ========== SIDEBAR ========== */
         .sidebar {
             width: 280px;
-            background: #f8fafc;
-            border-right: 1px solid var(--border);
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border-right: 1px solid var(--border-light);
             padding: 20px;
             overflow-y: auto;
         }
         
-        .sidebar h3 { font-size: 14px; margin-bottom: 15px; color: var(--secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .sidebar h3 { 
+            font-size: 14px; 
+            margin-bottom: 15px; 
+            color: var(--creative-purple-dark); 
+            text-transform: uppercase; 
+        }
         
         .categories-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
         
         .cat-btn {
-            background: white;
-            border: 1px solid var(--border);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
             padding: 10px 12px;
             text-align: left;
             border-radius: 10px;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
             font-size: 12px;
             font-weight: 500;
             transition: all 0.3s;
-            color: var(--text);
+            color: var(--text-dark);
         }
         
-        .cat-btn i { margin-right: 8px; width: 20px; color: var(--primary); }
-        .cat-btn:hover { background: #e0e7ff; border-color: var(--primary); transform: translateX(5px); }
+        .cat-btn i { margin-right: 8px; width: 20px; color: var(--creative-purple); }
+        .cat-btn:hover { 
+            background: linear-gradient(135deg, var(--creative-purple) 0%, var(--creative-purple-dark) 100%);
+            color: white; 
+            transform: translateX(5px);
+        }
+        .cat-btn:hover i { color: white; }
         
         /* ========== SUGERENCIAS ========== */
         .suggestions {
             margin-top: 20px;
             padding-top: 15px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--border-light);
         }
         
-        .suggestions h4 { font-size: 11px; color: var(--text-light); margin-bottom: 10px; }
+        .suggestions h4 { font-size: 11px; color: var(--text-gray); margin-bottom: 10px; }
         
         .suggestion-btn {
-            background: white;
-            border: 1px solid var(--border);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
             border-radius: 20px;
             padding: 6px 12px;
             font-size: 11px;
             margin: 3px;
             cursor: pointer;
             transition: all 0.2s;
-            color: var(--text);
+            color: var(--text-dark);
         }
         
-        .suggestion-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .suggestion-btn:hover { 
+            background: var(--action-orange); 
+            color: white; 
+            transform: scale(1.02);
+        }
         
-        /* ========== CHAT AREA ========== */
-        .chat-area { flex: 1; display: flex; flex-direction: column; background: var(--surface); }
+        /* ========== CHAT ========== */
+        .chat-area { flex: 1; display: flex; flex-direction: column; background: var(--bg-card); }
         
         .chat-messages {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
             max-height: 450px;
-            background: #fafbfc;
+            background: var(--bg-light);
         }
         
-        /* ========== MENSAJES ========== */
         .message { display: flex; gap: 12px; margin-bottom: 20px; animation: fadeIn 0.3s ease; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .bot-message .message-avatar {
-            background: linear-gradient(135deg, #AA151B 0%, #F1BF00 100%);
+            background: linear-gradient(135deg, var(--trust-blue) 0%, var(--creative-purple) 100%);
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -170,14 +210,13 @@
             align-items: center;
             justify-content: center;
             color: white;
-            flex-shrink: 0;
             font-size: 1rem;
         }
         
         .user-message { flex-direction: row-reverse; }
         
         .user-message .message-avatar {
-            background: var(--primary);
+            background: var(--action-orange);
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -185,7 +224,6 @@
             align-items: center;
             justify-content: center;
             color: white;
-            flex-shrink: 0;
         }
         
         .message-content {
@@ -198,24 +236,24 @@
         }
         
         .bot-message .message-content {
-            background: white;
-            border: 1px solid var(--border);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
             border-bottom-left-radius: 4px;
         }
         
         .user-message .message-content {
-            background: var(--primary);
+            background: var(--action-orange);
             color: white;
             border-bottom-right-radius: 4px;
         }
         
-        /* ========== INDICADOR DE ESCRITURA ========== */
+        /* ========== TYPING INDICATOR ========== */
         .typing-dots { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; }
         .typing-dots span {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background-color: #667eea;
+            background-color: var(--creative-purple);
             animation: typing 1.4s infinite;
         }
         .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
@@ -238,37 +276,46 @@
             border: none;
             cursor: pointer;
             font-size: 11px;
-            color: var(--text-light);
+            color: var(--text-gray);
             padding: 4px 8px;
             border-radius: 15px;
             transition: all 0.2s;
         }
         
-        .feedback-btn:hover { background: #f1f5f9; }
-        .feedback-btn-like:hover { color: var(--success); background: #d1fae5; }
-        .feedback-btn-dislike:hover { color: var(--danger); background: #fee2e2; }
+        .feedback-btn-like:hover { 
+            color: var(--success-green); 
+            background: #d1fae5; 
+        }
+        .feedback-btn-dislike:hover { 
+            color: var(--danger-red); 
+            background: #fee2e2;
+        }
         .feedback-btn-disabled { opacity: 0.5; cursor: not-allowed; }
         
-        /* ========== INPUT AREA ========== */
+        /* ========== INPUT ========== */
         .chat-input-container {
             padding: 15px 20px;
-            border-top: 1px solid var(--border);
-            background: white;
+            border-top: 1px solid var(--border-light);
+            background: var(--bg-card);
         }
         
         #userInput {
             width: 100%;
             padding: 12px;
-            border: 1px solid var(--border);
+            border: 2px solid var(--border-light);
             border-radius: 12px;
             font-family: 'Inter', sans-serif;
             font-size: 13px;
             resize: vertical;
             margin-bottom: 10px;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
         
-        #userInput:focus { outline: none; border-color: var(--primary); }
+        #userInput:focus { 
+            outline: none; 
+            border-color: var(--action-orange);
+            box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
+        }
         
         .input-actions { display: flex; gap: 10px; }
         
@@ -282,45 +329,56 @@
             transition: all 0.2s;
         }
         
-        .send-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; flex: 1; }
-        .send-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
-        .clear-btn { background: #f1f5f9; color: var(--text); }
-        .clear-btn:hover { background: #e2e8f0; }
+        .send-btn { 
+            background: linear-gradient(135deg, var(--action-orange) 0%, var(--action-orange-dark) 100%);
+            color: white; 
+            flex: 1; 
+        }
+        .send-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 12px rgba(249,115,22,0.4);
+        }
         
-        /* ========== FOOTER POLÍTICA DE PRIVACIDAD ========== */
+        .clear-btn { 
+            background: var(--bg-light); 
+            color: var(--text-dark);
+            border: 1px solid var(--border-light);
+        }
+        .clear-btn:hover { 
+            background: var(--danger-red);
+            color: white;
+        }
+        
+        /* ========== FOOTER Y BOTÓN FLOTANTE ========== */
         .footer {
             text-align: center;
             padding: 15px;
             font-size: 12px;
-            color: var(--text-light);
-            border-top: 1px solid var(--border);
-            background: white;
+            color: var(--text-gray);
+            border-top: 1px solid var(--border-light);
+            background: var(--bg-card);
         }
         
         .footer a {
-            color: var(--primary);
+            color: var(--action-orange);
             text-decoration: none;
+            font-weight: 500;
             cursor: pointer;
         }
         
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        
-        /* ========== BOTÓN FLOTANTE POLÍTICA DE PRIVACIDAD ========== */
         .privacy-float-btn {
             position: fixed;
             bottom: 20px;
             left: 20px;
             z-index: 1000;
-            background: #4f46e5;
+            background: linear-gradient(135deg, var(--creative-purple) 0%, var(--creative-purple-dark) 100%);
             color: white;
             border: none;
             border-radius: 50px;
             padding: 10px 18px;
             font-size: 12px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(139,92,246,0.3);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -328,11 +386,11 @@
         }
         
         .privacy-float-btn:hover {
-            background: #4338ca;
+            background: linear-gradient(135deg, var(--action-orange) 0%, var(--action-orange-dark) 100%);
             transform: scale(1.02);
         }
         
-        /* ========== MODAL POLÍTICA DE PRIVACIDAD ========== */
+        /* ========== MODAL ========== */
         .modal {
             display: none;
             position: fixed;
@@ -347,37 +405,34 @@
         }
         
         .modal-content {
-            background: white;
+            background: var(--bg-card);
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             border-radius: 20px;
             padding: 25px;
             overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         
         .modal-content h3 {
-            color: var(--secondary);
+            color: var(--trust-blue);
             margin-bottom: 15px;
-            font-size: 1.3rem;
         }
         
         .modal-content h4 {
-            color: var(--secondary);
+            color: var(--creative-purple-dark);
             margin: 15px 0 8px 0;
-            font-size: 1rem;
         }
         
         .modal-content p {
             font-size: 13px;
             line-height: 1.5;
-            color: var(--text);
+            color: var(--text-dark);
             margin-bottom: 10px;
         }
         
         .close-modal {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--action-orange) 0%, var(--action-orange-dark) 100%);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -388,18 +443,12 @@
             width: 100%;
         }
         
-        .close-modal:hover {
-            background: var(--primary-dark);
-        }
-        
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
             .main-content { flex-direction: column; }
             .sidebar { width: 100%; max-height: 250px; }
             .message-content { max-width: 85%; }
             .chatbot-title { font-size: 1.2rem; }
-            .header { padding: 15px 20px; }
-            .privacy-float-btn { padding: 8px 14px; font-size: 10px; bottom: 15px; left: 15px; }
+            .privacy-float-btn { padding: 8px 14px; font-size: 10px; }
         }
     </style>
 </head>
@@ -411,14 +460,14 @@
                 <circle cx="50" cy="50" r="48" fill="url(#oleGradient)"/>
                 <defs>
                     <linearGradient id="oleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#AA151B"/>
-                        <stop offset="50%" style="stop-color:#F1BF00"/>
-                        <stop offset="100%" style="stop-color:#AA151B"/>
+                        <stop offset="0%" style="stop-color:#1e3c72"/>
+                        <stop offset="50%" style="stop-color:#8b5cf6"/>
+                        <stop offset="100%" style="stop-color:#1e3c72"/>
                     </linearGradient>
                 </defs>
                 <path d="M30 45 Q50 30 70 45 Q75 50 70 60 Q50 75 30 60 Q25 50 30 45" fill="white"/>
-                <circle cx="40" cy="48" r="4" fill="#AA151B"/>
-                <path d="M55 55 Q65 62 68 70" stroke="#F1BF00" stroke-width="3" fill="none"/>
+                <circle cx="40" cy="48" r="4" fill="#f97316"/>
+                <path d="M55 55 Q65 62 68 70" stroke="#f97316" stroke-width="3" fill="none"/>
             </svg>
         </div>
         <div class="header-text">
@@ -428,8 +477,27 @@
         </div>
     </div>
     
+    <!-- ADSENSE BANNER -->
+    <div class="adsense-container">
+        <div class="adsense-label">📢 Anuncio</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3963223575032620"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    
+    <!-- AVISO IMPORTANTE CON ATRIBUCIÓN AEPD -->
     <div class="aviso-importante">
-        <strong>⚠️ Aviso importante:</strong> Este chatbot tiene fines <strong>educativos</strong>. Prioriza la <strong>ley chilena</strong> (19.628 y 21.719) y complementa con fuentes de la AEPD.
+        <strong>⚠️ Aviso importante:</strong><br>
+        Este chatbot tiene fines <strong>educativos</strong>. Prioriza la <strong>ley chilena</strong> (19.628 y 21.719) y complementa con fuentes de la AEPD.<br><br>
+        📌 <strong>Reutilización de datos de la AEPD:</strong> Los datos y criterios de la Agencia Española de Protección de Datos (AEPD) utilizados en este chatbot tienen su origen en <a href="https://www.aepd.es" target="_blank">https://www.aepd.es</a> y son reutilizados conforme a las condiciones de <a href="https://datos.gob.es" target="_blank">datos.gob.es</a>.<br>
+        📌 <strong>Fuente:</strong> Agencia Española de Protección de Datos (AEPD).<br>
+        📌 <strong>Última actualización de los datos de la AEPD referenciados en este chatbot:</strong> Mayo 2026 (fecha de consulta).
     </div>
     
     <div class="ia-warning">
@@ -440,14 +508,14 @@
         <div class="sidebar">
             <h3><i class="fas fa-list"></i> Categorías</h3>
             <div class="categories-list">
-                <button class="cat-btn" data-category="responsables"><i class="fas fa-user-tie"></i> 1. Responsables y Encargados</button>
-                <button class="cat-btn" data-category="riesgos"><i class="fas fa-chart-line"></i> 2. Enfoque de Riesgos</button>
-                <button class="cat-btn" data-category="analisis"><i class="fas fa-chart-bar"></i> 5. Análisis de Datos</button>
-                <button class="cat-btn" data-category="internet"><i class="fas fa-globe"></i> 6. Internet / LSSI</button>
-                <button class="cat-btn" data-category="moviles"><i class="fas fa-mobile-alt"></i> 7. Dispositivos Móviles</button>
-                <button class="cat-btn" data-category="sectorial"><i class="fas fa-briefcase"></i> 8. Recursos Sectoriales</button>
-                <button class="cat-btn" data-category="admin"><i class="fas fa-building"></i> 9. Administración Pública</button>
-                <button class="cat-btn" data-category="blog"><i class="fas fa-blog"></i> 10. Blog Temático</button>
+                <button class="cat-btn" data-category="responsables">1. Responsables y Encargados</button>
+                <button class="cat-btn" data-category="riesgos">2. Enfoque de Riesgos</button>
+                <button class="cat-btn" data-category="analisis">5. Análisis de Datos</button>
+                <button class="cat-btn" data-category="internet">6. Internet / LSSI</button>
+                <button class="cat-btn" data-category="moviles">7. Dispositivos Móviles</button>
+                <button class="cat-btn" data-category="sectorial">8. Recursos Sectoriales</button>
+                <button class="cat-btn" data-category="admin">9. Administración Pública</button>
+                <button class="cat-btn" data-category="blog">10. Blog Temático</button>
             </div>
             
             <div class="suggestions">
@@ -456,8 +524,7 @@
                 <button class="suggestion-btn" onclick="sendQuick('¿Cuáles son mis derechos ARCO en Chile?')">📋 Derechos ARCO</button>
                 <button class="suggestion-btn" onclick="sendQuick('Multas AEPD por datos biométricos')">🛂 Datos biométricos</button>
                 <button class="suggestion-btn" onclick="sendQuick('¿Qué es la Ley 21.719?')">📅 Ley 21.719</button>
-                <button class="suggestion-btn" onclick="sendQuick('¿Qué dice el RGPD sobre consentimiento?')">⚖️ Consentimiento RGPD</button>
-                <button class="suggestion-btn" onclick="sendQuick('Diferencia entre Chile y España protección datos')">🌎 Comparativa</button>
+                <button class="suggestion-btn" onclick="sendQuick('Diferencia entre Chile y España')">🌎 Comparativa</button>
             </div>
         </div>
         
@@ -469,35 +536,33 @@
                         👋 <strong>¡Olé! Soy OleOle</strong>, tu asistente experto en protección de datos.<br>
                         🇨🇱 Priorizo la <strong>ley chilena (19.628 y 21.719)</strong><br>
                         🇪🇸 Complemento con Guías, Criterios y Resoluciones de la AEPD<br>
-                        🧠 <strong>Recuerdo la conversación</strong>: puedo complementar respuestas sin repetirme.<br><br>
-                        ✅ <strong>No necesitas configurar nada</strong>. Solo escribe tu pregunta.<br><br>
-                        <small>📊 <strong>Valora mis respuestas</strong> con los botones 👍 👎 que aparecen después de cada respuesta.</small>
+                        🧠 <strong>Recuerdo la conversación</strong>: complemento sin repetirme.<br><br>
+                        <small>📊 <strong>Valora mis respuestas</strong> con 👍 👎</small>
                     </div>
                 </div>
             </div>
             
             <div class="chat-input-container">
-                <textarea id="userInput" placeholder="Escribe tu pregunta sobre protección de datos (Ley chilena, Guías AEPD, resoluciones...)" rows="2"></textarea>
+                <textarea id="userInput" placeholder="Escribe tu pregunta sobre protección de datos..." rows="2"></textarea>
                 <div class="input-actions">
-                    <button id="sendBtn" class="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
-                    <button id="clearBtn" class="clear-btn"><i class="fas fa-trash-alt"></i> Limpiar</button>
+                    <button id="sendBtn" class="send-btn">📨 Enviar</button>
+                    <button id="clearBtn" class="clear-btn">🗑️ Limpiar</button>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- ========== FOOTER CON POLÍTICA DE PRIVACIDAD ========== -->
     <div class="footer">
+        📌 Última actualización de datos AEPD: Mayo 2026<br>
         <a id="privacyLinkFooter">📋 Política de Privacidad</a>
     </div>
 </div>
 
-<!-- ========== BOTÓN FLOTANTE POLÍTICA DE PRIVACIDAD (siempre visible) ========== -->
 <button id="privacyFloatBtn" class="privacy-float-btn">
     📋 Política de Privacidad
 </button>
 
-<!-- ========== MODAL POLÍTICA DE PRIVACIDAD ========== -->
+<!-- MODAL POLÍTICA DE PRIVACIDAD -->
 <div id="privacyModal" class="modal">
     <div class="modal-content">
         <h3>📋 Política de Privacidad de OleOle</h3>
@@ -505,111 +570,62 @@
         
         <h4>1. Responsable del Tratamiento</h4>
         <p><strong>Titular:</strong> Maria Jardinera<br>
-        <strong>Correo de contacto:</strong> contacto@oleole.com<br>
+        <strong>Correo de contacto:</strong> miegana@hotmail.com<br>
         <strong>Sitio web:</strong> https://oleole-gdhk.onrender.com</p>
         
         <h4>2. ¿Qué datos recogemos?</h4>
-        <p>• Las preguntas que escribes en el chat<br>
-        • Tu dirección IP (técnica, para seguridad)<br>
-        • Historial de conversación (últimos 10 mensajes)</p>
+        <p>• Las preguntas que escribes en el chat<br>• Tu dirección IP<br>• Historial de conversación (10 mensajes)</p>
         
-        <h4>3. ¿Cómo usamos tus datos?</h4>
-        <p>• Responder tus preguntas sobre protección de datos<br>
-        • Mejorar la calidad de las respuestas (valoraciones 👍/👎)<br>
-        • Proteger el servidor contra ataques</p>
+        <h4>3. Base legal</h4>
+        <p>Ejecución del servicio solicitado (art. 13 Ley 21.719).</p>
         
-        <h4>4. ¿Compartimos tus datos con terceros?</h4>
-        <p><strong>OpenRouter</strong> (proveedor de IA): tus preguntas se envían para procesar la respuesta. Actúa como encargado del tratamiento (art. 15 bis Ley 21.719).</p>
-        
-        <h4>5. ¿Cómo protegemos tus datos?</h4>
-        <p>• Conexión cifrada HTTPS (candado 🔒 en tu navegador)<br>
-        • No almacenamos conversaciones de forma permanente<br>
-        • Las conversaciones se eliminan al cerrar la pestaña</p>
-        
-        <h4>6. ¿Qué derechos tienes?</h4>
+        <h4>4. Tus derechos</h4>
         <p><strong>Acceso, rectificación, supresión, oposición, portabilidad y bloqueo.</strong><br>
-        Para ejercer tus derechos, escríbenos a: <strong>contacto@oleole.com</strong></p>
+        Escríbenos a: <strong>miegana@hotmail.com</strong></p>
         
-        <h4>7. ¿Cuánto tiempo conservamos tus datos?</h4>
-        <p>• Conversaciones: se eliminan al cerrar la pestaña<br>
-        • Valoraciones: se almacenan de forma anónima para mejorar el servicio<br>
-        • Direcciones IP: no se almacenan de forma persistente</p>
-        
-        <h4>8. Uso de cookies</h4>
-        <p><strong>OleOle NO utiliza cookies publicitarias ni de rastreo.</strong> Solo emplea almacenamiento local (localStorage) para recordar la conversación actual mientras el chat está abierto, lo cual es estrictamente necesario para el funcionamiento.</p>
-        
-        <h4>9. Transferencias internacionales</h4>
-        <p>OpenRouter puede procesar datos en servidores en UE/EE.UU., bajo garantías adecuadas (cláusulas contractuales tipo).</p>
-        
-        <h4>10. Contacto</h4>
-        <p>📧 <strong>contacto@oleole.com</strong></p>
+        <h4>5. Contacto</h4>
+        <p>📧 <strong>miegana@hotmail.com</strong></p>
         
         <button class="close-modal" onclick="closePrivacyModal()">Cerrar</button>
     </div>
 </div>
 
 <script>
-    // ============================================
-    // MODAL POLÍTICA DE PRIVACIDAD
-    // ============================================
+    // Modal
     function openPrivacyModal() {
         document.getElementById('privacyModal').style.display = 'flex';
     }
-    
     function closePrivacyModal() {
         document.getElementById('privacyModal').style.display = 'none';
     }
-    
-    // Botón flotante
     document.getElementById('privacyFloatBtn').onclick = openPrivacyModal;
-    
-    // Footer link
     document.getElementById('privacyLinkFooter').onclick = openPrivacyModal;
-    
-    // Cerrar modal si se hace clic fuera del contenido
-    window.onclick = function(event) {
-        const modal = document.getElementById('privacyModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
+    window.onclick = function(e) {
+        if (e.target === document.getElementById('privacyModal')) {
+            closePrivacyModal();
         }
     }
     
-    // ============================================
-    // CONFIGURACIÓN INICIAL
-    // ============================================
+    // Chat
     let currentCategory = null;
     let lastUserQuestion = '';
-    let isWaitingForResponse = false;
+    let isWaiting = false;
     
     const chatMessages = document.getElementById('chatMessages');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const clearBtn = document.getElementById('clearBtn');
     
-    // ============================================
-    // FUNCIÓN ENVIAR PREGUNTA RÁPIDA
-    // ============================================
     function sendQuick(text) {
         userInput.value = text;
         sendMessage();
     }
     
-    // ============================================
-    // MOSTRAR INDICADOR DE ESCRITURA
-    // ============================================
     function showTyping() {
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot-message';
         typingDiv.id = 'typingIndicator';
-        typingDiv.innerHTML = `
-            <div class="message-avatar">🇨🇱</div>
-            <div class="message-content">
-                <div class="typing-dots">
-                    <span></span><span></span><span></span>
-                </div>
-                <span style="font-size:11px; color:#64748b;">OléOle está escribiendo...</span>
-            </div>
-        `;
+        typingDiv.innerHTML = `<div class="message-avatar">🇨🇱</div><div class="message-content"><div class="typing-dots"><span></span><span></span><span></span></div>OleOle está escribiendo...</div>`;
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
@@ -619,131 +635,86 @@
         if (typing) typing.remove();
     }
     
-    // ============================================
-    // AGREGAR MENSAJE AL CHAT
-    // ============================================
     function addMessage(role, content) {
         const div = document.createElement('div');
         div.className = `message ${role === 'user' ? 'user-message' : 'bot-message'}`;
-        
         const avatar = document.createElement('div');
         avatar.className = 'message-avatar';
         avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '🇨🇱';
-        
         const msgDiv = document.createElement('div');
         msgDiv.className = 'message-content';
         msgDiv.innerHTML = content.replace(/\n/g, '<br>');
-        
         div.appendChild(avatar);
         div.appendChild(msgDiv);
         
-        // Botones de feedback solo para respuestas del bot
         if (role === 'bot') {
             const feedbackDiv = document.createElement('div');
             feedbackDiv.className = 'feedback-buttons';
-            
             const likeBtn = document.createElement('button');
             likeBtn.innerHTML = '👍 Útil';
             likeBtn.className = 'feedback-btn feedback-btn-like';
-            
             const dislikeBtn = document.createElement('button');
             dislikeBtn.innerHTML = '👎 No útil';
             dislikeBtn.className = 'feedback-btn feedback-btn-dislike';
-            
             likeBtn.onclick = () => {
                 fetch('/api/feedback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        type: 'like',
-                        question: lastUserQuestion,
-                        answer: content,
-                        timestamp: new Date().toISOString()
-                    })
-                }).catch(e => console.log('Error al enviar feedback:', e));
-                
-                likeBtn.innerHTML = '✅ ¡Gracias!';
+                    body: JSON.stringify({ type: 'like', question: lastUserQuestion, answer: content, timestamp: new Date().toISOString() })
+                }).catch(e => console.log);
+                likeBtn.innerHTML = '✅ Gracias';
                 likeBtn.disabled = true;
                 dislikeBtn.disabled = true;
-                likeBtn.classList.add('feedback-btn-disabled');
-                dislikeBtn.classList.add('feedback-btn-disabled');
             };
-            
             dislikeBtn.onclick = () => {
                 fetch('/api/feedback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        type: 'dislike',
-                        question: lastUserQuestion,
-                        answer: content,
-                        timestamp: new Date().toISOString()
-                    })
-                }).catch(e => console.log('Error al enviar feedback:', e));
-                
+                    body: JSON.stringify({ type: 'dislike', question: lastUserQuestion, answer: content, timestamp: new Date().toISOString() })
+                }).catch(e => console.log);
                 dislikeBtn.innerHTML = '😔 Gracias';
                 likeBtn.disabled = true;
                 dislikeBtn.disabled = true;
-                likeBtn.classList.add('feedback-btn-disabled');
-                dislikeBtn.classList.add('feedback-btn-disabled');
             };
-            
             feedbackDiv.appendChild(likeBtn);
             feedbackDiv.appendChild(dislikeBtn);
             msgDiv.appendChild(feedbackDiv);
         }
-        
         chatMessages.appendChild(div);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
     
-    // ============================================
-    // CONSULTAR A LA IA
-    // ============================================
     async function askOleOle(question, categoryId) {
         const context = categoryId ? `Categoría: ${categoryId}.` : '';
         try {
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    messages: [{ role: 'user', content: context + ' ' + question }] 
-                })
+                body: JSON.stringify({ messages: [{ role: 'user', content: context + ' ' + question }] })
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.error);
             return data.choices[0].message.content;
         } catch (err) {
-            return `❌ Error: ${err.message}. Por favor, intenta de nuevo más tarde.`;
+            return `❌ Error: ${err.message}. Intenta de nuevo.`;
         }
     }
     
-    // ============================================
-    // ENVIAR MENSAJE
-    // ============================================
     async function sendMessage() {
-        if (isWaitingForResponse) return;
-        
+        if (isWaiting) return;
         const question = userInput.value.trim();
         if (!question) return;
-        
         lastUserQuestion = question;
         addMessage('user', question);
         userInput.value = '';
-        
-        isWaitingForResponse = true;
+        isWaiting = true;
         showTyping();
-        
         const answer = await askOleOle(question, currentCategory);
-        
         hideTyping();
         addMessage('bot', answer);
-        isWaitingForResponse = false;
+        isWaiting = false;
     }
     
-    // ============================================
-    // EVENTOS
-    // ============================================
     document.querySelectorAll('.cat-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             currentCategory = btn.dataset.category;
@@ -757,9 +728,8 @@
     clearBtn.addEventListener('click', async () => { 
         chatMessages.innerHTML = ''; 
         await fetch('/api/clear-history', { method: 'POST' });
-        addMessage('bot', '🧹 Chat limpio. ¡Olé! He olvidado nuestra conversación anterior. Pregúntame de nuevo.'); 
+        addMessage('bot', '🧹 Chat limpio. Pregúntame de nuevo.'); 
     });
-    
     userInput.addEventListener('keypress', (e) => { 
         if (e.key === 'Enter' && !e.shiftKey) { 
             e.preventDefault(); 
