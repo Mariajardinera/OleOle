@@ -1,141 +1,369 @@
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
 const path = require('path');
 const session = require('express-session');
+const fetch = require('node-fetch');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 3001;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
+// ===============================
+// MIDDLEWARES
+// ===============================
+
 app.use(cors());
-app.use(express.json());
-app.use(express.static('.'));
+
+app.use(express.json({
+    limit: '2mb'
+}));
+
+app.use(express.static(__dirname));
+
+// ===============================
+// SESIONES
+// ===============================
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'oleole-secret-key-2026',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 30 * 24 * 60 * 60 * 1000 }
+    cookie: {
+        secure: false,
+        maxAge: 30 * 24 * 60 * 60 * 1000
+    }
 }));
 
-app.post('/api/clear-history', (req, res) => {
-    if (req.session) req.session.conversationHistory = [];
-    res.json({ ok: true });
-});
-
-app.post('/api/chat', async (req, res) => {
-    const { messages } = req.body;
-    
-    if (!OPENROUTER_API_KEY) {
-        console.error('❌ API Key no configurada');
-        return res.status(500).json({ error: 'API Key no configurada en el servidor' });
-    }
-    
-    // Historial de conversación (últimos 10 mensajes)
-    if (!req.session.conversationHistory) {
-        req.session.conversationHistory = [];
-    }
-    
-    if (messages && messages.length > 0) {
-        req.session.conversationHistory.push(messages[messages.length - 1]);
-    }
-    
-    const MAX_HISTORY = 10;
-    let history = req.session.conversationHistory.slice(-MAX_HISTORY);
-    
-    // ============================================
-    // PROMPT CON PRIORIDAD CHILENA Y FUENTES VERIFICABLES
-    // ============================================
-    const systemPrompt = `Eres "OleOle", un asistente experto en protección de datos personales. Tu misión es educar priorizando la legislación chilena.
-
-**REGLAS OBLIGATORIAS PARA CADA RESPUESTA:**
-
-**1. PRIORIDAD CHILENA (RESPUESTA PRINCIPAL):**
-- Debes responder basándote en la legislación chilena.
-- Fuente principal: Ley 19.628 (sobre protección de la vida privada) y su modificación, la Ley 21.719.
-- Cita el artículo exacto cuando sea posible. Ejemplo: "En Chile, según el Artículo 12 de la Ley 19.628..."
-- Menciona que la Ley 21.719 entrará en vigencia el 1 de diciembre de 2026.
-
-**2. CONTEXTO ESPAÑOL (AEPD) - SOLO SI ES RELEVANTE:**
-- Si es relevante, añade una sección llamada "**Contexto España**".
-- Busca en las resoluciones de la AEPD (PS-00297-2025, PS-00615-2025, etc.) para casos similares.
-- Si no encuentras una resolución específica, dilo claramente: "No se ha encontrado una resolución de la AEPD sobre este punto específico."
-
-**3. PROHIBICIÓN ABSOLUTA DE INVENTAR:**
-- NUNCA inventes artículos de leyes, números de resoluciones o informes que no existan.
-- Si no encuentras una resolución específica, dilo claramente.
-- Si no estás seguro de un artículo chileno, dilo: "Según el espíritu de la Ley 19.628, que protege... aunque no tengo el artículo exacto."
-
-**4. AVISO LEGAL OBLIGATORIO (al final de cada respuesta):**
-Siempre incluye este texto:
-"📌 Aviso: Este es un asistente educativo. Si bien las respuestas se basan en fuentes oficiales, la IA puede cometer errores. Antes de tomar decisiones, verifica la información en los sitios oficiales."
-
-**5. MEMORIA Y COHERENCIA:**
-- Si el usuario repregunta sobre el mismo tema, utiliza el historial de la conversación para complementar y profundizar.
-- NUNCA te repitas. Si ya diste una respuesta, la siguiente debe ser complementaria.
-- Si el usuario cambia de tema, ignora el historial anterior y empieza de nuevo.
-
-**6. ESTRUCTURA DE RESPUESTA:**
-1. Respuesta Chile (citando artículo si es posible)
-2. Contexto España (si aplica)
-3. Aviso legal obligatorio`;
-
-    const messagesForAI = [
-        { role: 'system', content: systemPrompt },
-        ...history
-    ];
-    
-    try {
-        // 🔥 MODELO LLAMA 3 (8B) - GRATUITO
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'HTTP-Referer': 'https://oleole-gdhk.onrender.com',
-                'X-Title': 'OleOle (Prioridad Chile)'
-            },
-            body: JSON.stringify({
-                model: 'meta-llama/llama-3-8b-instruct:free',  // 🔥 Modelo Llama 3 gratuito
-                messages: messagesForAI,
-                temperature: 0.5,
-                max_tokens: 1500
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            console.error('Error OpenRouter:', data);
-            throw new Error(data.error?.message || 'Error en OpenRouter');
-        }
-        
-        const assistantMessage = data.choices[0].message;
-        req.session.conversationHistory.push(assistantMessage);
-        
-        res.json({ choices: [{ message: assistantMessage }] });
-        
-    } catch (error) {
-        console.error('❌ Error en /api/chat:', error.message);
-        res.status(500).json({ error: error.message });
-    }
-});
+// ===============================
+// RUTA PRINCIPAL
+// ===============================
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+
+    res.sendFile(
+        path.join(__dirname, 'index.html')
+    );
 });
 
+// ===============================
+// LIMPIAR HISTORIAL
+// ===============================
+
+app.post('/api/clear-history', (req, res) => {
+
+    if (req.session) {
+
+        req.session.conversationHistory = [];
+    }
+
+    res.json({
+        ok: true
+    });
+});
+
+// ===============================
+// CHAT IA
+// ===============================
+
+app.post('/api/chat', async (req, res) => {
+
+    try {
+
+        const { messages } = req.body;
+
+        // ===============================
+        // VALIDAR API KEY
+        // ===============================
+
+        if (!OPENROUTER_API_KEY) {
+
+            console.error(
+                '❌ OPENROUTER_API_KEY no configurada'
+            );
+
+            return res.status(500).json({
+                error: 'OPENROUTER_API_KEY no configurada'
+            });
+        }
+
+        // ===============================
+        // INICIALIZAR HISTORIAL
+        // ===============================
+
+        if (!req.session.conversationHistory) {
+
+            req.session.conversationHistory = [];
+        }
+
+        // ===============================
+        // GUARDAR ÚLTIMO MENSAJE USUARIO
+        // ===============================
+
+        if (
+            messages &&
+            messages.length > 0
+        ) {
+
+            req.session.conversationHistory.push(
+                messages[messages.length - 1]
+            );
+        }
+
+        // ===============================
+        // LIMITAR HISTORIAL
+        // ===============================
+
+        const MAX_HISTORY = 10;
+
+        const history =
+            req.session.conversationHistory.slice(
+                -MAX_HISTORY
+            );
+
+        // ===============================
+        // SYSTEM PROMPT
+        // ===============================
+
+        const systemPrompt = `
+Eres "OleOle", un asistente educativo especializado en:
+
+- protección de datos,
+- privacidad,
+- cumplimiento normativo,
+- inteligencia artificial,
+- ciberseguridad,
+- legislación chilena,
+- RGPD,
+- criterios y resoluciones públicas de la AEPD.
+
+OBJETIVO:
+Entregar respuestas claras, rigurosas, pedagógicas y jurídicamente prudentes sobre protección de datos y tecnologías relacionadas.
+
+REGLAS OBLIGATORIAS:
+
+1. Prioriza siempre legislación chilena vigente:
+- Ley 19.628 sobre protección de la vida privada.
+- Ley 21.719.
+- Normativa chilena complementaria aplicable.
+
+2. Complementa cuando corresponda con:
+- RGPD europeo,
+- criterios de la AEPD,
+- Comité Europeo de Protección de Datos,
+- jurisprudencia pública verificable.
+
+3. Nunca inventes:
+- artículos,
+- incisos,
+- letras,
+- resoluciones,
+- dictámenes,
+- oficios,
+- sentencias,
+- números de expediente,
+- criterios regulatorios inexistentes.
+
+4. Si no existe certeza absoluta:
+usa expresiones prudentes como:
+- "según criterios generales",
+- "de acuerdo con interpretación doctrinal",
+- "debe verificarse la fuente oficial",
+- "no existe actualmente criterio público concluyente".
+
+5. SOBRE LEY CHILENA 19.628:
+- El artículo 2 letra g) define datos sensibles.
+- El artículo 4 regula consentimiento y tratamiento.
+- El artículo 7 regula deber de secreto.
+- El artículo 10 regula tratamiento de datos sensibles.
+- El artículo 12 regula derechos ARCO.
+
+6. DATOS BIOMÉTRICOS:
+Indica que los datos biométricos pueden considerarse datos sensibles cuando permitan identificar características físicas de una persona.
+
+7. LEY 21.719:
+- Señala expresamente cuando una disposición aún no entra en vigencia.
+- Indica que la entrada en vigencia general será el 1 de diciembre de 2026.
+- Diferencia claramente:
+  - norma vigente,
+  - reforma futura,
+  - interpretación doctrinal.
+
+8. SOBRE AEPD:
+- Usa únicamente resoluciones o informes verificables públicamente.
+- El formato habitual de expedientes sancionadores es:
+  PS/XXX/YYYY
+- Nunca cites resoluciones inexistentes.
+
+9. Si no puedes verificar una resolución específica:
+NO inventes números.
+Usa fórmulas como:
+- "según criterios de la AEPD"
+- "la AEPD ha sostenido en diversas resoluciones públicas"
+
+10. Recomienda verificar fuentes oficiales:
+- leychile.cl
+- aepd.es
+- eur-lex.europa.eu
+
+11. Mantén tono:
+- profesional
+- claro
+- pedagógico
+- prudente
+- accesible para no abogados
+
+12. Nunca afirmes que entregas asesoría legal formal.
+
+13. Siempre finaliza exactamente con:
+
+"⚖️ Aviso educativo: esta respuesta es informativa y no constituye asesoría legal formal. Verifique fuentes oficiales y consulte profesionales especializados cuando corresponda."
+`;
+
+        // ===============================
+        // MENSAJES IA
+        // ===============================
+
+        const messagesForAI = [
+
+            {
+                role: 'system',
+                content: systemPrompt
+            },
+
+            ...history
+        ];
+
+        console.log(
+            '📨 Enviando request a OpenRouter...'
+        );
+
+        // ===============================
+        // REQUEST OPENROUTER
+        // ===============================
+
+        const response = await fetch(
+            'https://openrouter.ai/api/v1/chat/completions',
+            {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json',
+
+                    'Authorization':
+                        `Bearer ${OPENROUTER_API_KEY}`,
+
+                    'HTTP-Referer':
+                        'https://oleole-gdhk.onrender.com',
+
+                    'X-Title':
+                        'OleOle'
+                },
+
+                body: JSON.stringify({
+
+                    // ===============================
+                    // MODELO LLAMA GRATIS
+                    // ===============================
+
+                    model:
+                        'meta-llama/llama-3.3-70b-instruct:free',
+
+                    messages: messagesForAI,
+
+                    temperature: 0.4,
+
+                    max_tokens: 1200
+                })
+            }
+        );
+
+        console.log(
+            '📥 Status OpenRouter:',
+            response.status
+        );
+
+        const data =
+            await response.json();
+
+        console.log(
+            '📦 Respuesta OpenRouter:',
+            JSON.stringify(data, null, 2)
+        );
+
+        // ===============================
+        // VALIDAR RESPUESTA
+        // ===============================
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                data.error?.message ||
+
+                'Error desconocido OpenRouter'
+            );
+        }
+
+        const assistantMessage =
+            data.choices[0].message;
+
+        // ===============================
+        // GUARDAR RESPUESTA IA
+        // ===============================
+
+        req.session.conversationHistory.push(
+            assistantMessage
+        );
+
+        // ===============================
+        // RESPUESTA FRONTEND
+        // ===============================
+
+        res.json({
+
+            choices: [
+
+                {
+                    message: assistantMessage
+                }
+            ]
+        });
+
+    } catch (error) {
+
+        console.error(
+            '❌ ERROR SERVIDOR:',
+            error
+        );
+
+        res.status(500).json({
+
+            error:
+                error.message ||
+                'Error interno servidor'
+        });
+    }
+});
+
+// ===============================
+// INICIAR SERVIDOR
+// ===============================
+
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`
-    ╔══════════════════════════════════════════════════════════════════╗
-    ║     🇨🇱 OleOle - Prioridad Ley Chilena (con Llama 3) 🇪🇸         ║
-    ╠══════════════════════════════════════════════════════════════════╣
-    ║  🌐 http://localhost:${PORT}                                      ║
-    ║  🤖 Modelo: Llama 3 (8B) - Meta                                 ║
-    ║  🧠 Memoria: Últimos 10 mensajes                                ║
-    ║  🔐 API Key: ${OPENROUTER_API_KEY ? '✅ Configurada' : '❌ Falta'}                    ║
-    ╚══════════════════════════════════════════════════════════════════╝
-    `);
+
+    console.log(
+        `✅ Servidor corriendo en puerto ${PORT}`
+    );
+
+    console.log(
+
+        `🔐 OPENROUTER_API_KEY: ${
+            OPENROUTER_API_KEY
+                ? '✅ Configurada'
+                : '❌ Faltante'
+        }`
+    );
 });
