@@ -2,358 +2,678 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>OleOle · Asistente IA de Protección de Datos</title>
-    
-    <!-- 🔥 CÓDIGO DE GOOGLE ADSENSE (pegado en el head) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3963223575032620"
-     crossorigin="anonymous"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OleOle · Protección de Datos IA</title>
+
+    <!-- Google AdSense -->
+    <script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3963223575032620"
+        crossorigin="anonymous"></script>
+
+    <!-- Seguridad básica -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
-        .app-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
+
+        body{
+            font-family:'Inter',sans-serif;
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            min-height:100vh;
+            padding:20px;
         }
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 25px 35px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
+
+        .app-container{
+            max-width:1400px;
+            margin:auto;
+            background:white;
+            border-radius:22px;
+            overflow:hidden;
+            box-shadow:0 20px 60px rgba(0,0,0,0.25);
         }
-        .chatbot-avatar svg { width: 70px; height: 70px; }
-        .header-text { flex: 1; }
-        .chatbot-title { font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        .chatbot-subtitle { opacity: 0.9; font-size: 0.9rem; margin-top: 4px; }
-        .badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; margin-top: 8px; }
-        
-        /* 🔥 BANNER DE ADSENSE (espacio para el anuncio) */
-        .adsense-banner {
-            text-align: center;
-            padding: 10px 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .header{
+            background:linear-gradient(135deg,#1e3c72 0%,#2a5298 100%);
+            color:white;
+            padding:25px 30px;
+            display:flex;
+            gap:20px;
+            align-items:center;
+            flex-wrap:wrap;
         }
-        .adsense-banner ins {
-            display: block;
-            margin: 0 auto;
+
+        .avatar{
+            width:70px;
+            height:70px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#AA151B,#F1BF00);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:34px;
         }
-        .adsense-label {
-            font-size: 10px;
-            color: #999;
-            text-align: center;
-            padding: 5px 0;
-            background: #f8f9fa;
+
+        .header-text{
+            flex:1;
         }
-        
-        .main-content { display: flex; min-height: 600px; }
-        .sidebar {
-            width: 280px;
-            background: #f8f9fa;
-            border-right: 1px solid #e0e0e0;
-            padding: 20px;
-            overflow-y: auto;
+
+        .title{
+            font-size:1.9rem;
+            font-weight:700;
         }
-        .sidebar h3 { font-size: 16px; margin-bottom: 15px; color: #333; }
-        .categories-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .cat-btn {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s;
-            color: #333;
+
+        .subtitle{
+            margin-top:6px;
+            opacity:0.92;
+            font-size:0.95rem;
         }
-        .cat-btn i { margin-right: 8px; width: 20px; color: #2a5298; }
-        .cat-btn:hover { background: #e8f0fe; border-color: #2a5298; transform: translateX(5px); }
-        .chat-area { flex: 1; display: flex; flex-direction: column; background: #ffffff; }
-        .chat-messages {
-            flex: 1;
-            padding: 25px;
-            overflow-y: auto;
-            max-height: 500px;
-            background: #fafbfc;
+
+        .badge{
+            display:inline-block;
+            margin-top:10px;
+            background:rgba(255,255,255,0.18);
+            padding:6px 12px;
+            border-radius:20px;
+            font-size:12px;
         }
-        .message { display: flex; gap: 12px; margin-bottom: 20px; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .bot-message .message-avatar {
-            background: linear-gradient(135deg, #AA151B 0%, #F1BF00 100%);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
-            font-size: 1.2rem;
+
+        .ads-label{
+            text-align:center;
+            font-size:11px;
+            color:#666;
+            padding-top:8px;
+            background:#fafafa;
         }
-        .user-message { flex-direction: row-reverse; }
-        .user-message .message-avatar {
-            background: #2a5298;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
+
+        .ads-container{
+            background:#fafafa;
+            border-bottom:1px solid #e5e5e5;
+            padding:10px;
+            text-align:center;
+            min-height:90px;
         }
-        .message-content {
-            background: white;
-            padding: 12px 16px;
-            border-radius: 15px;
-            max-width: 80%;
-            line-height: 1.5;
-            font-size: 14px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+
+        .main{
+            display:flex;
+            min-height:650px;
         }
-        .bot-message .message-content { background: white; border: 1px solid #e0e0e0; }
-        .user-message .message-content { background: #2a5298; color: white; }
-        .chat-input-container { padding: 20px; border-top: 1px solid #e0e0e0; background: white; }
-        #userInput {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            resize: vertical;
-            margin-bottom: 12px;
+
+        .sidebar{
+            width:280px;
+            background:#f8f9fa;
+            border-right:1px solid #e5e5e5;
+            padding:20px;
+            overflow-y:auto;
         }
-        .input-actions { display: flex; gap: 10px; margin-bottom: 12px; }
-        .send-btn, .clear-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
+
+        .sidebar h3{
+            margin-bottom:15px;
+            color:#333;
         }
-        .send-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; flex: 1; }
-        .clear-btn { background: #f0f0f0; color: #666; }
-        .aviso-importante {
-            background: #e0f2fe;
-            border-left: 4px solid #0284c7;
-            padding: 15px 20px;
-            margin: 15px 20px;
-            border-radius: 12px;
-            font-size: 13px;
-            color: #0c4a6e;
-            line-height: 1.5;
+
+        .cat-btn{
+            width:100%;
+            margin-bottom:10px;
+            border:none;
+            background:white;
+            padding:12px;
+            border-radius:12px;
+            text-align:left;
+            cursor:pointer;
+            transition:0.25s;
+            border:1px solid #ddd;
+            font-family:'Inter',sans-serif;
+            font-size:13px;
+            font-weight:500;
         }
-        .ia-warning {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 12px 15px;
-            margin: 15px 20px 0 20px;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #92400e;
+
+        .cat-btn:hover{
+            background:#e8f0fe;
+            transform:translateX(5px);
         }
-        @media (max-width: 768px) {
-            .main-content { flex-direction: column; }
-            .sidebar { width: 100%; max-height: 300px; }
+
+        .chat-area{
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            background:#fff;
         }
+
+        .notice{
+            margin:18px 20px 0 20px;
+            padding:14px 18px;
+            border-radius:12px;
+            background:#e0f2fe;
+            border-left:5px solid #0284c7;
+            font-size:13px;
+            color:#0c4a6e;
+            line-height:1.5;
+        }
+
+        .warning{
+            margin:15px 20px 0 20px;
+            padding:12px 15px;
+            border-radius:10px;
+            background:#fef3c7;
+            border-left:5px solid #f59e0b;
+            font-size:12px;
+            color:#92400e;
+            line-height:1.5;
+        }
+
+        .chat-messages{
+            flex:1;
+            padding:25px;
+            overflow-y:auto;
+            max-height:520px;
+            background:#fafbfc;
+        }
+
+        .message{
+            display:flex;
+            gap:12px;
+            margin-bottom:18px;
+            animation:fadeIn .25s ease;
+        }
+
+        @keyframes fadeIn{
+            from{
+                opacity:0;
+                transform:translateY(8px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        .message.user{
+            flex-direction:row-reverse;
+        }
+
+        .message-avatar{
+            width:40px;
+            height:40px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-shrink:0;
+            color:white;
+            font-size:18px;
+        }
+
+        .bot .message-avatar{
+            background:linear-gradient(135deg,#AA151B,#F1BF00);
+        }
+
+        .user .message-avatar{
+            background:#2a5298;
+        }
+
+        .message-content{
+            max-width:80%;
+            background:white;
+            border-radius:16px;
+            padding:13px 16px;
+            line-height:1.6;
+            font-size:14px;
+            box-shadow:0 1px 3px rgba(0,0,0,0.08);
+            border:1px solid #ececec;
+        }
+
+        .user .message-content{
+            background:#2a5298;
+            color:white;
+            border:none;
+        }
+
+        .input-area{
+            padding:20px;
+            border-top:1px solid #e5e5e5;
+            background:white;
+        }
+
+        textarea{
+            width:100%;
+            border:1px solid #ddd;
+            border-radius:12px;
+            padding:12px;
+            font-family:'Inter',sans-serif;
+            font-size:14px;
+            resize:vertical;
+            min-height:90px;
+        }
+
+        .buttons{
+            margin-top:12px;
+            display:flex;
+            gap:10px;
+        }
+
+        .send-btn,
+        .clear-btn{
+            border:none;
+            border-radius:10px;
+            padding:12px 18px;
+            font-weight:600;
+            cursor:pointer;
+            font-family:'Inter',sans-serif;
+        }
+
+        .send-btn{
+            flex:1;
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            color:white;
+        }
+
+        .clear-btn{
+            background:#f0f0f0;
+            color:#555;
+        }
+
+        @media(max-width:768px){
+
+            .main{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                width:100%;
+                max-height:280px;
+            }
+
+            .message-content{
+                max-width:92%;
+            }
+        }
+
     </style>
 </head>
+
 <body>
+
 <div class="app-container">
+
     <div class="header">
-        <div class="chatbot-avatar">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="48" fill="url(#oleGradient)"/>
-                <defs>
-                    <linearGradient id="oleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#AA151B"/>
-                        <stop offset="50%" style="stop-color:#F1BF00"/>
-                        <stop offset="100%" style="stop-color:#AA151B"/>
-                    </linearGradient>
-                </defs>
-                <path d="M30 45 Q50 30 70 45 Q75 50 70 60 Q50 75 30 60 Q25 50 30 45" fill="white"/>
-                <circle cx="40" cy="48" r="4" fill="#AA151B"/>
-                <path d="M55 55 Q65 62 68 70" stroke="#F1BF00" stroke-width="3" fill="none"/>
-            </svg>
-        </div>
+
+        <div class="avatar">🇨🇱</div>
+
         <div class="header-text">
-            <div class="chatbot-title">Olé Olé 🇨🇱🇪🇸</div>
-            <div class="chatbot-subtitle">Asistente de protección de datos · prioridad Ley Chilena</div>
-            <div class="badge">Indexado: Ley 19.628 · Ley 21.719 · Guías AEPD</div>
+
+            <div class="title">
+                OleOle 🇨🇱🇪🇸
+            </div>
+
+            <div class="subtitle">
+                Asistente IA de protección de datos y privacidad
+            </div>
+
+            <div class="badge">
+                Ley 19.628 · Ley 21.719 · RGPD · AEPD
+            </div>
+
         </div>
     </div>
-    
-    <!-- 🔥 ESPACIO PARA BANNER DE ADSENSE (arriba del chat) -->
-    <div class="adsense-label">📢 Anuncio</div>
-    <div class="adsense-banner">
-        <!-- Aquí Google AdSense insertará automáticamente un anuncio -->
+
+    <!-- AdSense -->
+    <div class="ads-label">
+        📢 Publicidad
+    </div>
+
+    <div class="ads-container">
+
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-3963223575032620"
-             data-ad-slot="xxxxxxxxxx"
+             data-ad-slot="1234567890"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
+
         <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
-    </div>
-    
-    <div class="aviso-importante">
-        <strong>⚠️ Aviso importante:</strong><br>
-        Este chatbot tiene fines <strong>educativos</strong>. Prioriza la <strong>ley chilena</strong> (19.628 y 21.719) y complementa con fuentes de la AEPD.
-    </div>
-    
-    <div class="ia-warning">
-        <strong>🤖 AVISO IMPORTANTE (Ley de IA - UE 2024/1689):</strong><br>
-        Estás interactuando con un <strong>sistema de inteligencia artificial</strong>. Las respuestas son generadas automáticamente y pueden contener errores.
+
     </div>
 
-    <div class="main-content">
+    <div class="main">
+
         <div class="sidebar">
+
             <h3>Categorías</h3>
-            <div class="categories-list">
-                <button class="cat-btn" data-category="responsables">1. Responsables y Encargados</button>
-                <button class="cat-btn" data-category="riesgos">2. Enfoque de Riesgos</button>
-                <button class="cat-btn" data-category="analisis">5. Análisis de Datos</button>
-                <button class="cat-btn" data-category="internet">6. Internet / LSSI</button>
-                <button class="cat-btn" data-category="moviles">7. Dispositivos Móviles</button>
-                <button class="cat-btn" data-category="sectorial">8. Recursos Sectoriales</button>
-                <button class="cat-btn" data-category="admin">9. Administración Pública</button>
-                <button class="cat-btn" data-category="blog">10. Blog Temático</button>
-            </div>
+
+            <button class="cat-btn" data-category="responsables">
+                1. Responsables y Encargados
+            </button>
+
+            <button class="cat-btn" data-category="riesgos">
+                2. Enfoque de Riesgos
+            </button>
+
+            <button class="cat-btn" data-category="analisis">
+                3. Análisis de Datos
+            </button>
+
+            <button class="cat-btn" data-category="internet">
+                4. Internet y Cookies
+            </button>
+
+            <button class="cat-btn" data-category="moviles">
+                5. Dispositivos Móviles
+            </button>
+
+            <button class="cat-btn" data-category="sectorial">
+                6. Recursos Sectoriales
+            </button>
+
+            <button class="cat-btn" data-category="publico">
+                7. Administración Pública
+            </button>
+
         </div>
+
         <div class="chat-area">
+
+            <div class="notice">
+
+                <strong>⚠ Aviso educativo:</strong><br>
+                Este chatbot tiene fines educativos e informativos.
+                Prioriza legislación chilena y complementa con criterios europeos.
+
+            </div>
+
+            <div class="warning">
+
+                <strong>🤖 Transparencia IA:</strong><br>
+                Estás interactuando con un sistema de inteligencia artificial.
+                Verifica información crítica antes de tomar decisiones legales.
+
+            </div>
+
             <div class="chat-messages" id="chatMessages">
-                <div class="message bot-message">
-                    <div class="message-avatar">🇨🇱</div>
-                    <div class="message-content">
-                        👋 <strong>¡Olé! Soy OleOle</strong>, tu asistente experto en protección de datos.<br>
-                        🇨🇱 Priorizo la <strong>ley chilena (19.628 y 21.719)</strong><br>
-                        🇪🇸 Complemento con Guías, Criterios y Resoluciones de la AEPD<br>
-                        🧠 <strong>Recuerdo la conversación</strong>: puedo complementar respuestas sin repetirme.<br><br>
-                        ✅ <strong>No necesitas configurar nada</strong>. Solo escribe tu pregunta.
+
+                <div class="message bot">
+
+                    <div class="message-avatar">
+                        🇨🇱
                     </div>
+
+                    <div class="message-content">
+
+                        👋 <strong>¡Hola! Soy OleOle.</strong><br><br>
+
+                        Puedo ayudarte con:
+
+                        <br><br>
+
+                        ✅ Ley chilena 19.628<br>
+                        ✅ Ley 21.719<br>
+                        ✅ Privacidad y compliance<br>
+                        ✅ IA y protección de datos<br>
+                        ✅ RGPD y AEPD<br>
+                        ✅ Cookies y consentimiento<br>
+                        ✅ Derechos ARCO<br>
+
+                    </div>
+
                 </div>
+
             </div>
-            <div class="chat-input-container">
-                <textarea id="userInput" placeholder="Escribe tu pregunta sobre protección de datos (Ley chilena, Guías AEPD, resoluciones...)" rows="3"></textarea>
-                <div class="input-actions">
-                    <button id="sendBtn" class="send-btn">Enviar a OleOle</button>
-                    <button id="clearBtn" class="clear-btn">Limpiar</button>
+
+            <div class="input-area">
+
+                <textarea
+                    id="userInput"
+                    placeholder="Escribe tu pregunta sobre protección de datos..."></textarea>
+
+                <div class="buttons">
+
+                    <button class="send-btn" id="sendBtn">
+                        Enviar
+                    </button>
+
+                    <button class="clear-btn" id="clearBtn">
+                        Limpiar
+                    </button>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 <script>
-    let currentCategory = null;
-    const chatMessages = document.getElementById('chatMessages');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    
-    function addMessage(role, content) {
-        const div = document.createElement('div');
-        div.className = `message ${role === 'user' ? 'user-message' : 'bot-message'}`;
-        const avatar = document.createElement('div');
-        avatar.className = 'message-avatar';
-        avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '🇨🇱';
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message-content';
-        msgDiv.innerHTML = content.replace(/\n/g, '<br>');
-        div.appendChild(avatar);
-        div.appendChild(msgDiv);
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+const API_BASE = window.location.origin;
+
+let currentCategory = null;
+
+const chatMessages = document.getElementById('chatMessages');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+const clearBtn = document.getElementById('clearBtn');
+
+function addMessage(role, content){
+
+    const message = document.createElement('div');
+
+    message.className =
+        `message ${role}`;
+
+    const avatar = document.createElement('div');
+
+    avatar.className = 'message-avatar';
+
+    avatar.innerHTML =
+        role === 'user'
+        ? '<i class="fas fa-user"></i>'
+        : '🇨🇱';
+
+    const contentDiv = document.createElement('div');
+
+    contentDiv.className =
+        'message-content';
+
+    contentDiv.innerHTML =
+        content.replace(/\n/g,'<br>');
+
+    message.appendChild(avatar);
+    message.appendChild(contentDiv);
+
+    chatMessages.appendChild(message);
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+}
+
+function showLoading(){
+
+    const loading = document.createElement('div');
+
+    loading.id = 'loadingMessage';
+
+    loading.className = 'message bot';
+
+    loading.innerHTML = `
+        <div class="message-avatar">🇨🇱</div>
+        <div class="message-content">
+            ⏳ Pensando...
+        </div>
+    `;
+
+    chatMessages.appendChild(loading);
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+}
+
+function hideLoading(){
+
+    const loading =
+        document.getElementById('loadingMessage');
+
+    if(loading){
+        loading.remove();
     }
-    
-    function showLoading() { 
-        addMessage('system', '<div style="display:inline-block; width:20px; height:20px; border:3px solid #f3f3f3; border-top:3px solid #667eea; border-radius:50%; animation: spin 1s linear infinite;"></div> Pensando...'); 
-    }
-    function hideLoading() { 
-        const last = chatMessages.lastChild; 
-        if (last && last.innerText.includes('Pensando')) last.remove(); 
-    }
-    
-    async function askOleOle(question, categoryId) {
-        const context = categoryId ? `Categoría: ${categoryId}.` : '';
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    messages: [{ role: 'user', content: context + ' ' + question }] 
+}
+
+async function askOleOle(question, category){
+
+    const context =
+        category
+        ? `Categoría activa: ${category}.`
+        : '';
+
+    try{
+
+        const response =
+            await fetch(`${API_BASE}/api/chat`,{
+
+                method:'POST',
+
+                headers:{
+                    'Content-Type':'application/json'
+                },
+
+                body:JSON.stringify({
+                    messages:[
+                        {
+                            role:'user',
+                            content:`${context} ${question}`
+                        }
+                    ]
                 })
             });
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
-            return data.choices[0].message.content;
-        } catch (err) {
-            return `❌ Error: ${err.message}. Intenta de nuevo más tarde.`;
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+            throw new Error(
+                data.error || 'Error servidor'
+            );
+        }
+
+        return data.choices[0].message.content;
+
+    }catch(error){
+
+        return `❌ Error: ${error.message}`;
+
+    }
+}
+
+async function sendMessage(){
+
+    const question =
+        userInput.value.trim();
+
+    if(!question){
+        return;
+    }
+
+    addMessage('user',question);
+
+    userInput.value = '';
+
+    showLoading();
+
+    const answer =
+        await askOleOle(
+            question,
+            currentCategory
+        );
+
+    hideLoading();
+
+    addMessage('bot',answer);
+}
+
+document
+.querySelectorAll('.cat-btn')
+.forEach(btn => {
+
+    btn.addEventListener('click',()=>{
+
+        currentCategory =
+            btn.dataset.category;
+
+        document
+        .querySelectorAll('.cat-btn')
+        .forEach(b => {
+            b.style.background = 'white';
+        });
+
+        btn.style.background = '#e8f0fe';
+
+        addMessage(
+            'bot',
+            `📌 Categoría activa: ${btn.innerText}`
+        );
+
+    });
+
+});
+
+sendBtn.addEventListener(
+    'click',
+    sendMessage
+);
+
+clearBtn.addEventListener(
+    'click',
+    async ()=>{
+
+        chatMessages.innerHTML = '';
+
+        await fetch(
+            `${API_BASE}/api/clear-history`,
+            {
+                method:'POST'
+            }
+        );
+
+        addMessage(
+            'bot',
+            '🧹 Conversación limpiada.'
+        );
+
+    }
+);
+
+userInput.addEventListener(
+    'keypress',
+    (e)=>{
+
+        if(
+            e.key === 'Enter'
+            && !e.shiftKey
+        ){
+
+            e.preventDefault();
+
+            sendMessage();
         }
     }
-    
-    async function sendMessage() {
-        const question = userInput.value.trim();
-        if (!question) return;
-        addMessage('user', question);
-        userInput.value = '';
-        showLoading();
-        const answer = await askOleOle(question, currentCategory);
-        hideLoading();
-        if (answer) addMessage('bot', answer);
-    }
-    
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentCategory = btn.dataset.category;
-            document.querySelectorAll('.cat-btn').forEach(b => b.style.background = 'white');
-            btn.style.background = '#e8f0fe';
-            addMessage('system', `📌 Categoría activa: ${btn.innerText}`);
-        });
-    });
-    
-    sendBtn.addEventListener('click', sendMessage);
-    clearBtn.addEventListener('click', async () => { 
-        chatMessages.innerHTML = ''; 
-        await fetch('/api/clear-history', { method: 'POST' });
-        addMessage('bot', '🧹 Chat limpio. ¡Olé! He olvidado nuestra conversación anterior. Pregúntame de nuevo.'); 
-    });
-    userInput.addEventListener('keypress', (e) => { 
-        if (e.key === 'Enter' && !e.shiftKey) { 
-            e.preventDefault(); 
-            sendMessage(); 
-        } 
-    });
-    
-    const style = document.createElement('style');
-    style.textContent = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
-    document.head.appendChild(style);
+);
+
 </script>
+
 </body>
 </html>

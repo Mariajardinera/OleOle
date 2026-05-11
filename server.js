@@ -1,121 +1,279 @@
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
 const path = require('path');
 const session = require('express-session');
+const fetch = require('node-fetch');
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+
+const PORT = process.env.PORT || 3001;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.'));
+app.use(express.static(__dirname));
 
+// Sesiones
 app.use(session({
     secret: process.env.SESSION_SECRET || 'oleole-secret-key-2026',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 30 * 24 * 60 * 60 * 1000 }
+    cookie: {
+        secure: false,
+        maxAge: 30 * 24 * 60 * 60 * 1000
+    }
 }));
 
-app.post('/api/clear-history', (req, res) => {
-    if (req.session) req.session.conversationHistory = [];
-    res.json({ ok: true });
-});
-
-app.post('/api/chat', async (req, res) => {
-    const { messages } = req.body;
-    
-    if (!OPENROUTER_API_KEY) {
-        console.error('❌ API Key no configurada');
-        return res.status(500).json({ error: 'API Key no configurada en el servidor' });
-    }
-    
-    // Historial de conversación (máximo 10 mensajes)
-    if (!req.session.conversationHistory) {
-        req.session.conversationHistory = [];
-    }
-    
-    if (messages && messages.length > 0) {
-        req.session.conversationHistory.push(messages[messages.length - 1]);
-    }
-    
-    const MAX_HISTORY = 10;
-    let history = req.session.conversationHistory.slice(-MAX_HISTORY);
-    
-    // ============================================
-    // PROMPT MEJORADO CON PRIORIDAD CHILENA Y VERACIDAD
-    // ============================================
-    const systemPrompt = `Eres "OleOle", un asistente experto en protección de datos personales.
-
-**REGLAS ABSOLUTAS - LEY CHILENA (PRIORITARIA):**
-1. SIEMPRE responde primero basándote en la legislación chilena.
-2. Cita el artículo EXACTO de la Ley 19.628 o 21.719 (ej: "Artículo 12 de la Ley 19.628...").
-3. Si no encuentras el artículo o no estás segura, DÍLO CLARAMENTE: "No encuentro un artículo exacto de la ley chilena sobre este punto específico, pero según el espíritu de la ley..."
-4. NUNCA inventes números de artículo, fechas o resoluciones que no existan.
-
-**REGLAS ABSOLUTAS - CONTEXTO ESPAÑOL (SECUNDARIO):**
-1. DESPUÉS de responder con ley chilena, añade "**Contexto España**".
-2. Cita resoluciones reales de la AEPD si existen (ej: "resolución PS-00297-2025 de la AEPD...").
-3. Si no hay resolución específica, DÍLO: "No se ha encontrado una resolución de la AEPD sobre este punto."
-
-**REGLAS ABSOLUTAS - VERACIDAD Y MEMORIA:**
-1. Si el usuario repregunta sobre el mismo tema, utiliza el historial de conversación para complementar y profundizar.
-2. NUNCA te repitas. Si ya diste una respuesta, la siguiente debe ser complementaria.
-3. Si el usuario cambia de tema, ignora el historial anterior y empieza de nuevo.
-4. SIEMPRE termina con el aviso legal.
-
-**ESTRUCTURA OBLIGATORIA DE RESPUESTA:**
-**[Respuesta Chile]** - Cita artículo o explica que no existe.
-**[Contexto España]** - Menciona resolución AEPD si existe.
-**[Aviso legal]** - 📌 Aviso: Este es un asistente educativo. Verifica la información en las fuentes oficiales.`;
-
-    const messagesForAI = [
-        { role: 'system', content: systemPrompt },
-        ...history
-    ];
-    
-    try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'HTTP-Referer': 'https://oleole-gdhk.onrender.com',
-                'X-Title': 'OleOle (Prioridad Chile)'
-            },
-            body: JSON.stringify({
-                model: 'openrouter/free',
-                messages: messagesForAI,
-                temperature: 0.3,  // Más bajo para respuestas más precisas
-                max_tokens: 1500
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error?.message || 'Error en OpenRouter');
-        }
-        
-        const assistantMessage = data.choices[0].message;
-        req.session.conversationHistory.push(assistantMessage);
-        
-        res.json({ choices: [{ message: assistantMessage }] });
-        
-    } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: error.message });
-    }
-});
-
+// Ruta principal
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Limpiar historial
+app.post('/api/clear-history', (req, res) => {
+
+    if (req.session) {
+        req.session.conversationHistory = [];
+    }
+
+    res.json({ ok: true });
+});
+
+// Chat IA
+app.post('/api/chat', async (req, res) => {
+
+    try {
+
+        const { messages } = req.body;
+
+        // Verificar API Key
+        if (!OPENROUTER_API_KEY) {
+
+            console.error('❌ OPENROUTER_API_KEY no configurada');
+
+            return res.status(500).json({
+                error: 'OPENROUTER_API_KEY no configurada'
+            });
+        }
+
+        // Inicializar historial
+        if (!req.session.conversationHistory) {
+            req.session.conversationHistory = [];
+        }
+
+        // Guardar último mensaje usuario
+        if (messages && messages.length > 0) {
+
+            req.session.conversationHistory.push(
+                messages[messages.length - 1]
+            );
+        }
+
+        // Limitar historial
+        const MAX_HISTORY = 10;
+
+        const history =
+            req.session.conversationHistory.slice(-MAX_HISTORY);
+
+        // Prompt sistema
+        const systemPrompt = `
+Eres "OleOle", un asistente educativo especializado en:
+
+- protección de datos,
+- privacidad,
+- cumplimiento normativo,
+- inteligencia artificial,
+- ciberseguridad,
+- legislación chilena,
+- RGPD,
+- criterios y resoluciones públicas de la AEPD.
+
+OBJETIVO:
+Entregar respuestas claras, rigurosas, pedagógicas y jurídicamente prudentes sobre protección de datos y tecnologías relacionadas.
+
+REGLAS OBLIGATORIAS:
+
+1. Prioriza siempre legislación chilena vigente:
+- Ley 19.628 sobre protección de la vida privada.
+- Ley 21.719.
+- Normativa chilena complementaria aplicable.
+
+2. Complementa cuando corresponda con:
+- RGPD europeo,
+- criterios de la AEPD,
+- Comité Europeo de Protección de Datos,
+- jurisprudencia pública verificable.
+
+3. Nunca inventes:
+- artículos,
+- incisos,
+- letras,
+- resoluciones,
+- dictámenes,
+- oficios,
+- sentencias,
+- números de expediente,
+- criterios regulatorios inexistentes.
+
+4. Si no existe certeza absoluta:
+usa expresiones prudentes como:
+- "según criterios generales",
+- "de acuerdo con interpretación doctrinal",
+- "debe verificarse la fuente oficial",
+- "no existe actualmente criterio público concluyente".
+
+5. SOBRE LEY CHILENA 19.628:
+
+- El artículo 2 letra g) define datos sensibles.
+- El artículo 4 regula el consentimiento y tratamiento de datos.
+- El artículo 7 regula el deber de secreto.
+- El artículo 10 regula tratamiento de datos sensibles.
+- El artículo 12 regula derechos ARCO.
+
+6. DATOS BIOMÉTRICOS:
+Indica que los datos biométricos pueden considerarse datos sensibles cuando permitan identificar características físicas de una persona.
+
+7. LEY 21.719:
+- Señala expresamente cuando una disposición aún no entra en vigencia.
+- Indica que la entrada en vigencia general será el 1 de diciembre de 2026.
+- Diferencia claramente:
+  - norma vigente,
+  - reforma futura,
+  - interpretación doctrinal.
+
+8. SOBRE AEPD:
+- Usa únicamente resoluciones o informes verificables públicamente.
+- El formato habitual de expedientes sancionadores es:
+  PS/XXX/YYYY
+- Nunca cites resoluciones inexistentes.
+
+9. Si no puedes verificar una resolución específica:
+NO inventes números.
+Usa fórmulas como:
+- "según criterios de la AEPD",
+- "la AEPD ha sostenido en diversas resoluciones públicas".
+
+10. Recomienda verificar fuentes oficiales cuando corresponda:
+- leychile.cl
+- aepd.es
+- eur-lex.europa.eu
+
+11. Mantén tono:
+- profesional,
+- claro,
+- pedagógico,
+- prudente,
+- accesible para no abogados.
+
+12. Evita afirmaciones absolutas cuando exista:
+- ambigüedad normativa,
+- debate doctrinal,
+- falta de jurisprudencia consolidada.
+
+13. Si el usuario solicita:
+- contratos,
+- cláusulas,
+- políticas,
+- análisis normativos,
+- matrices de riesgo,
+puedes ayudar de forma educativa y referencial.
+
+14. Nunca afirmes que entregas asesoría legal formal.
+
+15. Siempre finaliza exactamente con:
+
+"⚖️ Aviso educativo: esta respuesta es informativa y no constituye asesoría legal formal. Verifique fuentes oficiales y consulte profesionales especializados cuando corresponda."
+
+`;
+
+        const messagesForAI = [
+            {
+                role: 'system',
+                content: systemPrompt
+            },
+            ...history
+        ];
+
+        console.log('📨 Enviando request a OpenRouter...');
+
+        // Request OpenRouter
+        const response = await fetch(
+            'https://openrouter.ai/api/v1/chat/completions',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+                    'HTTP-Referer': 'https://oleole-gdhk.onrender.com',
+                    'X-Title': 'OleOle'
+                },
+                body: JSON.stringify({
+                    model: 'mistralai/mistral-7b-instruct:free',
+                    messages: messagesForAI,
+                    temperature: 0.5,
+                    max_tokens: 1200
+                })
+            }
+        );
+
+        console.log('📥 Status OpenRouter:', response.status);
+
+        const data = await response.json();
+
+        console.log(
+            '📦 Respuesta OpenRouter:',
+            JSON.stringify(data, null, 2)
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error?.message ||
+                'Error desconocido OpenRouter'
+            );
+        }
+
+        const assistantMessage =
+            data.choices[0].message;
+
+        // Guardar respuesta IA
+        req.session.conversationHistory.push(
+            assistantMessage
+        );
+
+        // Responder frontend
+        res.json({
+            choices: [
+                {
+                    message: assistantMessage
+                }
+            ]
+        });
+
+    } catch (error) {
+
+        console.error('❌ ERROR SERVIDOR:', error);
+
+        res.status(500).json({
+            error: error.message || 'Error interno servidor'
+        });
+    }
+});
+
+// Iniciar servidor
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`🔐 API Key: ${OPENROUTER_API_KEY ? '✅ Configurada' : '❌ Falta'}`);
+
+    console.log(`✅ Servidor corriendo en puerto ${PORT}`);
+
+    console.log(
+        `🔐 OPENROUTER_API_KEY: ${
+            OPENROUTER_API_KEY
+                ? '✅ Configurada'
+                : '❌ Faltante'
+        }`
+    );
+
 });
