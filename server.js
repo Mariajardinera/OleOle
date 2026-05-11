@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
 
+// Configuración de sesiones
 app.use(session({
     secret: process.env.SESSION_SECRET || 'oleole-secret-key-2026',
     resave: false,
@@ -20,110 +21,52 @@ app.use(session({
     cookie: { secure: false, maxAge: 30 * 24 * 60 * 60 * 1000 }
 }));
 
+// Endpoint principal del chat
 app.post('/api/chat', async (req, res) => {
-    const { messages } = req.body;
-    
+    // ... (aquí va la lógica de historial que ya tenías)
+
     if (!OPENROUTER_API_KEY) {
         console.error('❌ API Key no configurada');
         return res.status(500).json({ error: 'API Key no configurada en el servidor' });
     }
     
-    // Historial de conversación
-    if (!req.session.conversationHistory) {
-        req.session.conversationHistory = [];
-    }
-    
-    if (messages && messages.length > 0) {
-        req.session.conversationHistory.push(messages[messages.length - 1]);
-    }
-    
-    const MAX_HISTORY = 10;
-    let history = req.session.conversationHistory.slice(-MAX_HISTORY);
-    
-    // 🔥 PROMPT COMPLETO CON PRIORIDAD CHILENA
+    // --- NUEVO PROMPT DEL SISTEMA (REGLAS DE RESPUESTA) ---
     const systemPrompt = `
-Eres "OleOle", un asistente experto en protección de datos personales. Tu misión es educar priorizando la legislación chilena.
+Eres "OleOle", un asistente experto en protección de datos para Chile y España. Tu misión es proporcionar información **verificable y precisa**.
 
-**REGLAS OBLIGATORIAS PARA CADA RESPUESTA:**
+**REGLAS ESTRICTAS PARA RESPONDER:**
 
-1. **PRIORIDAD CHILENA**: Antes de cualquier otra cosa, busca en la Ley 19.628 o en la Ley 21.719 chilena.
-   - **Cita el artículo exacto** si es posible (ej. "Artículo 12 de la Ley 19.628...").
-   - Si la ley chilena no regula un punto específico, dilo claramente.
+1.  **PRIORIDAD CHILENA (RESPUESTA PRINCIPAL):**
+    *   Tu obligación es responder basándote en la legislación chilena.
+    *   **Fuente Primaria:** La Ley 19.628 (sobre protección de la vida privada) y su modificación, la **Ley 21.719**.
+    *   **Formato Obligatorio:** Cita el artículo exacto. Ejemplo: *"En Chile, según el Artículo 12 de la Ley 19.628..."*
+    *   **Vigencia:** Menciona que la Ley 21.719 entra en vigencia el 1 de diciembre de 2026.
 
-2. **COMPLEMENTO EUROPEO (Referencia Didáctica)**: Solo después de dar la respuesta chilena, añade al final:
-   "**Complemento desde la práctica europea:** En el RGPD / España, esto se regula de [manera similar/diferente] porque [explicación breve]."
-   - No des el complemento si la ley chilena es idéntica.
+2.  **CONTEXTO COMPARATIVO (ESPAÑA - AEPD):**
+    *   **Solo si es relevante**, añade una sección titulada "**Contexto España**".
+    *   Busca en las resoluciones de la AEPD (enlace: https://www.aepd.es/informes-y-resoluciones/resoluciones). Si encuentras una resolución que aplique al caso (ej. uso de datos biométricos), menciónala.
+    *   Busca en los informes jurídicos de la AEPD (enlace: https://www.aepd.es/informes-y-resoluciones/informes-juridicos) para explicar la interpretación de la ley española o del RGPD.
+    *   Si el usuario pregunta por un caso reciente, intenta buscar en las resoluciones de 2025 o 2026 (PS-00297-2025, PS-00615-2025, AI-00057-2025, etc.).
 
-3. **AVISO LEGAL OBLIGATORIO**: Al terminar CADA respuesta, incluye:
-   "📌 *Aviso importante: Esta respuesta utiliza como fuente primordial la legislación chilena publicada en el Diario Oficial (Ley 19.628 y Ley 21.719). La referencia al RGPD y a la AEPD tiene un fin meramente didáctico y comparativo.*"
+3.  **PROHIBICIÓN ABSOLUTA DE INVENTAR (FUENTES VERIFICABLES):**
+    *   **NUNCA** inventes artículos de leyes, números de resoluciones o informes que no existan.
+    *   Si no encuentras una resolución específica para el caso, dilo claramente: *"No he encontrado una resolución de la AEPD sobre este punto específico, pero según el RGPD..."*
+    *   Si no estás seguro de un artículo chileno, dilo: *"Según el espíritu de la Ley 19.628, que protege... aunque no tengo el artículo exacto a la mano."*
 
-**CONOCIMIENTO NORMATIVO:**
-- Chile: Ley 19.628 y Ley 21.719. Consejo para la Transparencia es la autoridad.
-- Europa: RGPD 2016/679, LOPDGDD española y guías AEPD.
+4.  **AVISO LEGAL OBLIGATORIO (al final de cada respuesta):**
+    *   Incluye este texto: \n
+    > *"📌 Aviso: Este es un asistente educativo. Si bien las respuestas se basan en fuentes oficiales (Ley 19.628, AEPD), la IA puede cometer errores. Antes de tomar decisiones, verifica la información en los enlaces proporcionados o en los sitios oficiales."*
 
-**ESTRUCTURA DE RESPUESTA:**
-1. Respuesta citando ley chilena.
-2. (Opcional) Breve comparativa europea.
-3. Aviso legal obligatorio.
-`;
-    
-    const messagesForAI = [
-        { role: 'system', content: systemPrompt },
-        ...history
-    ];
-    
-    try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'HTTP-Referer': 'https://oleole.onrender.com',
-                'X-Title': 'OleOle (Prioridad Chile)'
-            },
-            body: JSON.stringify({
-                model: 'openrouter/free',
-                messages: messagesForAI,
-                temperature: 0.5,
-                max_tokens: 1300
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error?.message || 'Error en OpenRouter');
-        }
-        
-        const assistantMessage = data.choices[0].message;
-        req.session.conversationHistory.push(assistantMessage);
-        
-        res.json({ choices: [{ message: assistantMessage }] });
-        
-    } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: error.message });
-    }
+5.  **FORMATO DE LA RESPUESTA:**
+    *   **Respuesta Chile:** Comienza aquí. Cita el artículo.
+    *   **Contexto España:** (si aplica) Añade esta sección.
+    *   **Aviso Legal:** Añade siempre esta sección al final.`;
+
+    // --- FIN DEL NUEVO PROMPT ---
+
+    // Aquí iría el resto de tu lógica existente para combinar el systemPrompt con el historial
+    // y hacer la llamada a fetch a OpenRouter...
+
 });
 
-app.post('/api/clear-history', (req, res) => {
-    if (req.session) req.session.conversationHistory = [];
-    res.json({ ok: true });
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.listen(PORT, () => {
-    console.log(`
-    ╔═════════════════════════════════════════════════════════════════════╗
-    ║     🇨🇱 ¡OléOle - Prioridad Ley Chilena! 🇨🇱                         ║
-    ╠═════════════════════════════════════════════════════════════════════╣
-    ║  🌐 http://localhost:${PORT}                                           ║
-    ║  ⚖️  Fuente primaria: Leyes 19.628 y 21.719                         ║
-    ║  📚 Fuente secundaria: RGPD y AEPD (comparativa)                    ║
-    ║  🔐 API Key: ${OPENROUTER_API_KEY ? '✅ Configurada' : '❌ Falta'}                          ║
-    ╚═════════════════════════════════════════════════════════════════════╝
-    `);
-});
+// ... (resto de tu código: endpoints de historial, inicio del servidor, etc.)
