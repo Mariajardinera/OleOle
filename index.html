@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>OleOle · Asistente IA de Protección de Datos</title>
     
-    <!-- ========================================== -->
-    <!-- 🔥 GOOGLE ADSENSE -->
-    <!-- ========================================== -->
+    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3963223575032620"
      crossorigin="anonymous"></script>
     
@@ -15,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ========== NEUROMARKETING COLORS ========== */
         :root {
             --trust-blue: #1e3c72;
             --trust-blue-light: #2a5298;
@@ -51,7 +48,6 @@
             overflow: hidden;
         }
         
-        /* ========== HEADER ========== */
         .header {
             background: linear-gradient(135deg, var(--trust-blue) 0%, var(--trust-blue-light) 100%);
             color: white;
@@ -75,7 +71,6 @@
             margin-top: 8px;
         }
         
-        /* ========== ADSENSE BANNER ========== */
         .adsense-container {
             text-align: center;
             padding: 15px 20px;
@@ -90,7 +85,6 @@
             letter-spacing: 1px;
         }
         
-        /* ========== AVISOS CON ATRIBUCIÓN AEPD ========== */
         .aviso-importante {
             background: #e0f2fe;
             border-left: 4px solid var(--action-orange);
@@ -118,7 +112,6 @@
             color: #92400e;
         }
         
-        /* ========== SIDEBAR ========== */
         .main-content { display: flex; min-height: 550px; }
         
         .sidebar {
@@ -159,7 +152,6 @@
         }
         .cat-btn:hover i { color: white; }
         
-        /* ========== SUGERENCIAS ========== */
         .suggestions {
             margin-top: 20px;
             padding-top: 15px;
@@ -186,7 +178,6 @@
             transform: scale(1.02);
         }
         
-        /* ========== CHAT ========== */
         .chat-area { flex: 1; display: flex; flex-direction: column; background: var(--bg-card); }
         
         .chat-messages {
@@ -247,7 +238,6 @@
             border-bottom-right-radius: 4px;
         }
         
-        /* ========== TYPING INDICATOR ========== */
         .typing-dots { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; }
         .typing-dots span {
             width: 6px;
@@ -263,7 +253,6 @@
             30% { transform: translateY(-8px); opacity: 1; }
         }
         
-        /* ========== FEEDBACK BUTTONS ========== */
         .feedback-buttons {
             margin-top: 8px;
             display: flex;
@@ -292,7 +281,6 @@
         }
         .feedback-btn-disabled { opacity: 0.5; cursor: not-allowed; }
         
-        /* ========== INPUT ========== */
         .chat-input-container {
             padding: 15px 20px;
             border-top: 1px solid var(--border-light);
@@ -349,7 +337,6 @@
             color: white;
         }
         
-        /* ========== FOOTER Y BOTÓN FLOTANTE ========== */
         .footer {
             text-align: center;
             padding: 15px;
@@ -390,7 +377,6 @@
             transform: scale(1.02);
         }
         
-        /* ========== MODAL ========== */
         .modal {
             display: none;
             position: fixed;
@@ -477,7 +463,7 @@
         </div>
     </div>
     
-    <!-- ADSENSE BANNER -->
+    <!-- Google AdSense Banner -->
     <div class="adsense-container">
         <div class="adsense-label">📢 Anuncio</div>
         <ins class="adsbygoogle"
@@ -491,7 +477,7 @@
         </script>
     </div>
     
-    <!-- AVISO IMPORTANTE CON ATRIBUCIÓN AEPD -->
+    <!-- Aviso importante con atribución AEPD -->
     <div class="aviso-importante">
         <strong>⚠️ Aviso importante:</strong><br>
         Este chatbot tiene fines <strong>educativos</strong>. Prioriza la <strong>ley chilena</strong> (19.628 y 21.719) y complementa con fuentes de la AEPD.<br><br>
@@ -508,14 +494,14 @@
         <div class="sidebar">
             <h3><i class="fas fa-list"></i> Categorías</h3>
             <div class="categories-list">
-                <button class="cat-btn" data-category="responsables">1. Responsables y Encargados</button>
-                <button class="cat-btn" data-category="riesgos">2. Enfoque de Riesgos</button>
-                <button class="cat-btn" data-category="analisis">5. Análisis de Datos</button>
-                <button class="cat-btn" data-category="internet">6. Internet / LSSI</button>
-                <button class="cat-btn" data-category="moviles">7. Dispositivos Móviles</button>
-                <button class="cat-btn" data-category="sectorial">8. Recursos Sectoriales</button>
-                <button class="cat-btn" data-category="admin">9. Administración Pública</button>
-                <button class="cat-btn" data-category="blog">10. Blog Temático</button>
+                <button class="cat-btn" data-category="responsables"><i class="fas fa-user-tie"></i> 1. Responsables y Encargados</button>
+                <button class="cat-btn" data-category="riesgos"><i class="fas fa-chart-line"></i> 2. Enfoque de Riesgos</button>
+                <button class="cat-btn" data-category="analisis"><i class="fas fa-chart-bar"></i> 5. Análisis de Datos</button>
+                <button class="cat-btn" data-category="internet"><i class="fas fa-globe"></i> 6. Internet / LSSI</button>
+                <button class="cat-btn" data-category="moviles"><i class="fas fa-mobile-alt"></i> 7. Dispositivos Móviles</button>
+                <button class="cat-btn" data-category="sectorial"><i class="fas fa-briefcase"></i> 8. Recursos Sectoriales</button>
+                <button class="cat-btn" data-category="admin"><i class="fas fa-building"></i> 9. Administración Pública</button>
+                <button class="cat-btn" data-category="blog"><i class="fas fa-blog"></i> 10. Blog Temático</button>
             </div>
             
             <div class="suggestions">
@@ -524,7 +510,7 @@
                 <button class="suggestion-btn" onclick="sendQuick('¿Cuáles son mis derechos ARCO en Chile?')">📋 Derechos ARCO</button>
                 <button class="suggestion-btn" onclick="sendQuick('Multas AEPD por datos biométricos')">🛂 Datos biométricos</button>
                 <button class="suggestion-btn" onclick="sendQuick('¿Qué es la Ley 21.719?')">📅 Ley 21.719</button>
-                <button class="suggestion-btn" onclick="sendQuick('Diferencia entre Chile y España')">🌎 Comparativa</button>
+                <button class="suggestion-btn" onclick="sendQuick('Diferencia entre Chile y España protección datos')">🌎 Comparativa</button>
             </div>
         </div>
         
@@ -537,16 +523,17 @@
                         🇨🇱 Priorizo la <strong>ley chilena (19.628 y 21.719)</strong><br>
                         🇪🇸 Complemento con Guías, Criterios y Resoluciones de la AEPD<br>
                         🧠 <strong>Recuerdo la conversación</strong>: complemento sin repetirme.<br><br>
-                        <small>📊 <strong>Valora mis respuestas</strong> con 👍 👎</small>
+                        ✅ <strong>No necesitas configurar nada</strong>. Solo escribe tu pregunta.<br><br>
+                        <small>📊 <strong>Valora mis respuestas</strong> con los botones 👍 👎 que aparecen después de cada respuesta.</small>
                     </div>
                 </div>
             </div>
             
             <div class="chat-input-container">
-                <textarea id="userInput" placeholder="Escribe tu pregunta sobre protección de datos..." rows="2"></textarea>
+                <textarea id="userInput" placeholder="Escribe tu pregunta sobre protección de datos (Ley chilena, Guías AEPD, resoluciones...)" rows="2"></textarea>
                 <div class="input-actions">
-                    <button id="sendBtn" class="send-btn">📨 Enviar</button>
-                    <button id="clearBtn" class="clear-btn">🗑️ Limpiar</button>
+                    <button id="sendBtn" class="send-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+                    <button id="clearBtn" class="clear-btn"><i class="fas fa-trash-alt"></i> Limpiar</button>
                 </div>
             </div>
         </div>
@@ -558,11 +545,12 @@
     </div>
 </div>
 
+<!-- Botón flotante Política de Privacidad -->
 <button id="privacyFloatBtn" class="privacy-float-btn">
     📋 Política de Privacidad
 </button>
 
-<!-- MODAL POLÍTICA DE PRIVACIDAD -->
+<!-- Modal Política de Privacidad -->
 <div id="privacyModal" class="modal">
     <div class="modal-content">
         <h3>📋 Política de Privacidad de OleOle</h3>
@@ -574,16 +562,24 @@
         <strong>Sitio web:</strong> https://oleole-gdhk.onrender.com</p>
         
         <h4>2. ¿Qué datos recogemos?</h4>
-        <p>• Las preguntas que escribes en el chat<br>• Tu dirección IP<br>• Historial de conversación (10 mensajes)</p>
+        <p>• Las preguntas que escribes en el chat<br>• Tu dirección IP (técnica, para seguridad)<br>• Historial de conversación (últimos 10 mensajes)</p>
         
-        <h4>3. Base legal</h4>
-        <p>Ejecución del servicio solicitado (art. 13 Ley 21.719).</p>
+        <h4>3. ¿Cómo usamos tus datos?</h4>
+        <p>• Responder tus preguntas sobre protección de datos<br>• Mejorar la calidad de las respuestas (valoraciones 👍/👎)<br>• Proteger el servidor contra ataques</p>
         
-        <h4>4. Tus derechos</h4>
-        <p><strong>Acceso, rectificación, supresión, oposición, portabilidad y bloqueo.</strong><br>
-        Escríbenos a: <strong>miegana@hotmail.com</strong></p>
+        <h4>4. ¿Compartimos tus datos con terceros?</h4>
+        <p><strong>OpenRouter</strong> (proveedor de IA): tus preguntas se envían para procesar la respuesta.</p>
         
-        <h4>5. Contacto</h4>
+        <h4>5. ¿Cómo protegemos tus datos?</h4>
+        <p>• Conexión cifrada HTTPS (candado 🔒)<br>• No almacenamos conversaciones de forma permanente</p>
+        
+        <h4>6. ¿Qué derechos tienes?</h4>
+        <p><strong>Acceso, rectificación, supresión, oposición, portabilidad y bloqueo.</strong><br>Para ejercer tus derechos, escríbenos a: <strong>miegana@hotmail.com</strong></p>
+        
+        <h4>7. Transferencias internacionales</h4>
+        <p>OpenRouter puede procesar datos en servidores en UE/EE.UU., bajo garantías adecuadas.</p>
+        
+        <h4>8. Contacto</h4>
         <p>📧 <strong>miegana@hotmail.com</strong></p>
         
         <button class="close-modal" onclick="closePrivacyModal()">Cerrar</button>
@@ -591,25 +587,33 @@
 </div>
 
 <script>
-    // Modal
+    // ==========================================
+    // MODAL POLÍTICA DE PRIVACIDAD
+    // ==========================================
     function openPrivacyModal() {
         document.getElementById('privacyModal').style.display = 'flex';
     }
+    
     function closePrivacyModal() {
         document.getElementById('privacyModal').style.display = 'none';
     }
+    
     document.getElementById('privacyFloatBtn').onclick = openPrivacyModal;
     document.getElementById('privacyLinkFooter').onclick = openPrivacyModal;
-    window.onclick = function(e) {
-        if (e.target === document.getElementById('privacyModal')) {
-            closePrivacyModal();
+    
+    window.onclick = function(event) {
+        const modal = document.getElementById('privacyModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
         }
     }
     
-    // Chat
+    // ==========================================
+    // CONFIGURACIÓN DEL CHAT
+    // ==========================================
     let currentCategory = null;
     let lastUserQuestion = '';
-    let isWaiting = false;
+    let isWaitingForResponse = false;
     
     const chatMessages = document.getElementById('chatMessages');
     const userInput = document.getElementById('userInput');
@@ -625,7 +629,13 @@
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot-message';
         typingDiv.id = 'typingIndicator';
-        typingDiv.innerHTML = `<div class="message-avatar">🇨🇱</div><div class="message-content"><div class="typing-dots"><span></span><span></span><span></span></div>OleOle está escribiendo...</div>`;
+        typingDiv.innerHTML = `
+            <div class="message-avatar">🇨🇱</div>
+            <div class="message-content">
+                <div class="typing-dots"><span></span><span></span><span></span></div>
+                <span style="font-size:11px; color:#64748b;">OléOle está escribiendo...</span>
+            </div>
+        `;
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
@@ -650,22 +660,27 @@
         if (role === 'bot') {
             const feedbackDiv = document.createElement('div');
             feedbackDiv.className = 'feedback-buttons';
+            
             const likeBtn = document.createElement('button');
             likeBtn.innerHTML = '👍 Útil';
             likeBtn.className = 'feedback-btn feedback-btn-like';
             const dislikeBtn = document.createElement('button');
             dislikeBtn.innerHTML = '👎 No útil';
             dislikeBtn.className = 'feedback-btn feedback-btn-dislike';
+            
             likeBtn.onclick = () => {
                 fetch('/api/feedback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ type: 'like', question: lastUserQuestion, answer: content, timestamp: new Date().toISOString() })
                 }).catch(e => console.log);
-                likeBtn.innerHTML = '✅ Gracias';
+                likeBtn.innerHTML = '✅ ¡Gracias!';
                 likeBtn.disabled = true;
                 dislikeBtn.disabled = true;
+                likeBtn.classList.add('feedback-btn-disabled');
+                dislikeBtn.classList.add('feedback-btn-disabled');
             };
+            
             dislikeBtn.onclick = () => {
                 fetch('/api/feedback', {
                     method: 'POST',
@@ -675,11 +690,15 @@
                 dislikeBtn.innerHTML = '😔 Gracias';
                 likeBtn.disabled = true;
                 dislikeBtn.disabled = true;
+                likeBtn.classList.add('feedback-btn-disabled');
+                dislikeBtn.classList.add('feedback-btn-disabled');
             };
+            
             feedbackDiv.appendChild(likeBtn);
             feedbackDiv.appendChild(dislikeBtn);
             msgDiv.appendChild(feedbackDiv);
         }
+        
         chatMessages.appendChild(div);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
@@ -696,23 +715,23 @@
             if (!response.ok) throw new Error(data.error);
             return data.choices[0].message.content;
         } catch (err) {
-            return `❌ Error: ${err.message}. Intenta de nuevo.`;
+            return `❌ Error: ${err.message}. Intenta de nuevo más tarde.`;
         }
     }
     
     async function sendMessage() {
-        if (isWaiting) return;
+        if (isWaitingForResponse) return;
         const question = userInput.value.trim();
         if (!question) return;
         lastUserQuestion = question;
         addMessage('user', question);
         userInput.value = '';
-        isWaiting = true;
+        isWaitingForResponse = true;
         showTyping();
         const answer = await askOleOle(question, currentCategory);
         hideTyping();
         addMessage('bot', answer);
-        isWaiting = false;
+        isWaitingForResponse = false;
     }
     
     document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -728,8 +747,9 @@
     clearBtn.addEventListener('click', async () => { 
         chatMessages.innerHTML = ''; 
         await fetch('/api/clear-history', { method: 'POST' });
-        addMessage('bot', '🧹 Chat limpio. Pregúntame de nuevo.'); 
+        addMessage('bot', '🧹 Chat limpio. ¡Olé! Pregúntame de nuevo.'); 
     });
+    
     userInput.addEventListener('keypress', (e) => { 
         if (e.key === 'Enter' && !e.shiftKey) { 
             e.preventDefault(); 
