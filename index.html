@@ -307,6 +307,31 @@
             text-decoration: underline;
         }
         
+        /* ========== BOTÓN FLOTANTE POLÍTICA DE PRIVACIDAD ========== */
+        .privacy-float-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 18px;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .privacy-float-btn:hover {
+            background: #4338ca;
+            transform: scale(1.02);
+        }
+        
         /* ========== MODAL POLÍTICA DE PRIVACIDAD ========== */
         .modal {
             display: none;
@@ -374,6 +399,7 @@
             .message-content { max-width: 85%; }
             .chatbot-title { font-size: 1.2rem; }
             .header { padding: 15px 20px; }
+            .privacy-float-btn { padding: 8px 14px; font-size: 10px; bottom: 15px; left: 15px; }
         }
     </style>
 </head>
@@ -462,9 +488,14 @@
     
     <!-- ========== FOOTER CON POLÍTICA DE PRIVACIDAD ========== -->
     <div class="footer">
-        <a id="privacyLink">📋 Política de Privacidad</a>
+        <a id="privacyLinkFooter">📋 Política de Privacidad</a>
     </div>
 </div>
+
+<!-- ========== BOTÓN FLOTANTE POLÍTICA DE PRIVACIDAD (siempre visible) ========== -->
+<button id="privacyFloatBtn" class="privacy-float-btn">
+    📋 Política de Privacidad
+</button>
 
 <!-- ========== MODAL POLÍTICA DE PRIVACIDAD ========== -->
 <div id="privacyModal" class="modal">
@@ -529,7 +560,11 @@
         document.getElementById('privacyModal').style.display = 'none';
     }
     
-    document.getElementById('privacyLink').onclick = openPrivacyModal;
+    // Botón flotante
+    document.getElementById('privacyFloatBtn').onclick = openPrivacyModal;
+    
+    // Footer link
+    document.getElementById('privacyLinkFooter').onclick = openPrivacyModal;
     
     // Cerrar modal si se hace clic fuera del contenido
     window.onclick = function(event) {
